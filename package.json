@@ -1,5 +1,5 @@
 {
-  "name": "example",
+  "name": "angular-poi",
   "version": "1.1.1",
   "description": "example: An Ionic project",
   "dependencies": {
@@ -20,7 +20,11 @@
     "cordova-plugin-whitelist",
     "cordova-plugin-splashscreen",
     "cordova-plugin-statusbar",
-    "ionic-plugin-keyboard"
+    "ionic-plugin-keyboard",
+    "cordova-plugin-fullscreen",
+    "com.ezartech.ezar.videooverlay"
   ],
-  "cordovaPlatforms": []
+  "cordovaPlatforms": [
+    "android"
+  ]
 }

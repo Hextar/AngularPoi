@@ -46,5 +46,21 @@
         },
         "is_top_level": true,
         "variables": {}
+    },
+    "cordova-plugin-fullscreen": {
+        "source": {
+            "type": "registry",
+            "id": "cordova-plugin-fullscreen"
+        },
+        "is_top_level": true,
+        "variables": {}
+    },
+    "com.ezartech.ezar.videooverlay": {
+        "source": {
+            "type": "registry",
+            "id": "com.ezartech.ezar.videooverlay"
+        },
+        "is_top_level": true,
+        "variables": {}
     }
 }
