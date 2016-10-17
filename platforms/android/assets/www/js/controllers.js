@@ -1,7 +1,7 @@
 angular.module('angular-poi')
 
     .controller("CameraController", function ($scope, $state, $rootScope, $ionicPlatform, $timeout,
-                                              Compass, Motion, Location, Camera, $log) {
+                                              Compass, Accellerometer, Geolocation, Camera, $log) {
 
         var pin = [
             {"name": "Coccodì", "lat": "39.218365", "lng": "9.113795"},
@@ -12,17 +12,12 @@ angular.module('angular-poi')
         ];
 
         var markersArray = [], bounds;
-        var myLat = 0, myLng = 0;
         var bearing, distance;
-        var dataStatus = 0;
+        $scope.dataLoading = false;
 
         window.ionic.Platform.ready(function () {
 
-            console.debug("Body ready");
-
-            window.AndroidFullScreen.immersiveMode();
-
-            startCamera();
+            Camera.initBackCamera();
 
             setupMap();
 
@@ -30,18 +25,19 @@ angular.module('angular-poi')
             startAccelerometer();
             startCompass();
             startGeolocation();
+
+            Compass.getCurrentHeading();
+            Accellerometer.getCurrentAcceletation();
+            Geolocation.getCurrentPosition();
+
+            Compass.watchHeading();
+            Accellerometer.watchAcceleration();
+            Geolocation.watchPosition();
+
+            if($rootScope.errorList != "") console.error($rootScope.errorList);
+
         });
 
-        // start ezar camera
-        function startCamera() {
-            ezar.initializeVideoOverlay(
-                function() {
-                    ezar.getBackCamera().start();
-                },
-                function(error) {
-                    console.error("ezar initialization failed");
-                });
-        }
 
         // setup google maps api
         function setupMap(){
@@ -76,14 +72,14 @@ angular.module('angular-poi')
         }
 
         // get data from API and store in array, add to list view and create markers on map, calculate
-        function loadData(){
-            dataStatus = "loading";
+        $scope.loadData = function() {
+            dataLoading = true;
             markersArray = [];
             bounds = new google.maps.LatLngBounds();
             // add blue gps marker
             var icon = new google.maps.MarkerImage('http://www.google.com/intl/en_us/mapfiles/ms/micons/blue-dot.png',new google.maps.Size(30, 28),new google.maps.Point(0,0),new google.maps.Point(9, 28));
-            var gpsMarker = new google.maps.Marker({position: new google.maps.LatLng(myLat, myLng), map: map, title: "My Position", icon:icon});
-            bounds.extend(new google.maps.LatLng(myLat, myLng));
+            var gpsMarker = new google.maps.Marker({position: new google.maps.LatLng($rootScope.geo.lat, $rootScope.geo.lon), map: map, title: "My Position", icon:icon});
+            bounds.extend(new google.maps.LatLng($rootScope.geo.lat, $rootScope.geo.lon));
             markersArray.push(gpsMarker);
             // add all location markers to map and list view and array
             for(var i=0; i< pin.length; i++){
@@ -93,7 +89,7 @@ angular.module('angular-poi')
             }
             map.fitBounds(bounds);
             google.maps.event.trigger(map, "resize");
-            dataStatus = "loaded";
+            dataLoading = false;
         }
 
         // add marker to map and in array
@@ -107,21 +103,16 @@ angular.module('angular-poi')
             markersArray.push(marker);
         }
 
-        // clear all markers from map and array
-        function clearMarkers() {
-            while (markersArray.length) {
-                markersArray.pop().setMap(null);
-            }
-        }
-
         // calulate distance and bearing value for each of the points wrt gps lat/lng
-        function relativePosition(i) {
+        $scope.relativePosition = function(i) {
+            var EARTH_RADISU_KM = 6371.0072;
+
             var pinLat = pin[i].lat;
             var pinLng = pin[i].lng;
-            var dLat = (myLat - pinLat) * Math.PI / 180;
-            var dLon = (myLng - pinLng) * Math.PI / 180;
+            var dLat = ($rootScope.geo.lat - pinLat) * Math.PI / 180;
+            var dLon = ($rootScope.geo.lon - pinLng) * Math.PI / 180;
             var lat1 = pinLat * Math.PI / 180;
-            var lat2 = myLat * Math.PI / 180;
+            var lat2 = $rootScope.geo.lat * Math.PI / 180;
             var y = Math.sin(dLon) * Math.cos(lat2);
             var x = Math.cos(lat1) * Math.sin(lat2) - Math.sin(lat1) * Math.cos(lat2) * Math.cos(dLon);
             bearing = Math.atan2(y, x) * 180 / Math.PI;
@@ -130,106 +121,50 @@ angular.module('angular-poi')
 
             var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) + Math.sin(dLon / 2) * Math.sin(dLon / 2) * Math.cos(lat1) * Math.cos(lat2);
             var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-            distance = 3958.76 * c;
+            distance = EARTH_RADISU_KM * c;
             pin[i]['distance'] = distance;
         }
 
-        // Start watching the geolocation
-        function startGeolocation() {
-            var options = {timeout: 30000};
-            watchGeoID = navigator.geolocation.watchPosition(onGeoSuccess, onGeoError, options);
-        }
-
-        // Stop watching the geolocation
-        function stopGeolocation() {
-            if (watchGeoID) {
-                navigator.geolocation.clearWatch(watchGeoID);
-                watchGeoID = null;
+        // calculate direction of points and display
+        $scope.calculateDirection = function(degree){
+            var detected = 0;
+            $("#spot").html("");
+            for(var i=0;i<pin.length;i++){
+                if(Math.abs(pin[i].bearing - degree) <= 20){
+                    var away, fontSize, fontColor;
+                    // varry font size based on distance from gps location
+                    if(pin[i].distance>1500){
+                        away = Math.round(pin[i].distance);
+                        fontSize = "16";
+                        fontColor = "#ccc";
+                    } else if(pin[i].distance>500){
+                        away = Math.round(pin[i].distance);
+                        fontSize = "24";
+                        fontColor = "#ddd";
+                    } else {
+                        away = pin[i].distance.toFixed(2);
+                        fontSize = "30";
+                        fontColor = "#eee";
+                    }
+                    $("#spot").append('<div class="name" data-id="'+i+'" style="margin-left:'+(((pin[i].bearing - degree) * 5)+50)+'px;width:'+($(window).width()-100)+'px;font-size:'+fontSize+'px;color:'+fontColor+'">'+pin[i].name+'<div class="distance">'+ away +' kilometers away</div></div>');
+                    detected = 1;
+                } else {
+                    if(!detected){
+                        $("#spot").html("");
+                    }
+                }
             }
+
         }
 
-        // onSuccess: Get the current location
-        function onGeoSuccess(position) {
-            document.getElementById('geolocation').innerHTML = 'Latitude: ' + position.coords.latitude + '<br />' + 'Longitude: ' + position.coords.longitude;
-            myLat = position.coords.latitude;
-            myLng = position.coords.longitude;
-            if (!dataStatus) {
-                loadData();
-            }
+        $scope.showTop = function() {
+            $("#arView").fadeIn();
+            $("#topView").hide();
         }
 
-        // onError: Failed to get the location
-        function onGeoError() {
-            document.getElementById('log').innerHTML += "onError=.";
-        }
-
-        // Start watching the compass
-        function startCompass() {
-            var options = {frequency: 100};
-            watchCompassID = navigator.compass.watchHeading(onCompassSuccess, onCompassError, options);
-        }
-
-        // Stop watching the compass
-        function stopCompass() {
-            if (watchCompassID) {
-                navigator.compass.clearWatch(watchCompassID);
-                watchCompassID = null;
-            }
-        }
-
-        // onSuccess: Get the current heading
-        function onCompassSuccess(heading) {
-            var directions = ['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW', 'N'];
-            var direction = directions[Math.abs(parseInt((heading.magneticHeading) / 45) + 1)];
-            document.getElementById('compass').innerHTML = heading.magneticHeading + "<br>" + direction;
-            document.getElementById('direction').innerHTML = direction;
-            var degree = heading.magneticHeading;
-            if ($("#arView").is(":visible") && dataStatus != "loading") {
-                calculateDirection(degree);
-            }
-        }
-
-        // onError: Failed to get the heading
-        function onCompassError(compassError) {
-            document.getElementById('log').innerHTML += "onError=." + compassError.code;
-        }
-
-        // Start checking the accelerometer
-        function startAccelerometer() {
-            var options = {frequency: 100};
-            watchAccelerometerID = navigator.accelerometer.watchAcceleration(onAccelerometerSuccess, onAccelerometerError, options);
-        }
-
-        // Stop checking the accelerometer
-        function stopAccelerometer() {
-            if (watchAccelerometerID) {
-                navigator.accelerometer.clearWatch(watchAccelerometerID);
-                watchAccelerometerID = null;
-            }
-        }
-
-        // onSuccess: Get current accelerometer values
-        function onAccelerometerSuccess(acceleration) {
-            // for debug purpose to print out accelerometer values
-            var element = document.getElementById('accelerometer');
-            element.innerHTML = 'Acceleration X: ' + acceleration.x + '<br />' +
-                'Acceleration Y: ' + acceleration.y + '<br />' +
-                'Acceleration Z: ' + acceleration.z;
-            if (acceleration.y > 7) {
-                $("#arView").fadeIn();
-                $("#topView").hide();
-                // document.getElementById('body').style.background = "#d22";
-                document.getElementById('body').style.background = "transparent";
-            } else {
-                $("#arView").hide();
-                $("#topView").fadeIn();
-                document.getElementById('body').style.background = "#fff";
-            }
-        }
-
-        // onError: Failed to get the acceleration
-        function onAccelerometerError() {
-            document.getElementById('log').innerHTML += "onError.";
+        $scope.hideTop = function() {
+            $("#arView").fadeIn();
+            $("#topView").hide();
         }
 
     });

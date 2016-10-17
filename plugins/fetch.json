@@ -7,6 +7,38 @@
         "is_top_level": true,
         "variables": {}
     },
+    "cordova-plugin-compat": {
+        "source": {
+            "type": "registry",
+            "id": "cordova-plugin-compat"
+        },
+        "is_top_level": true,
+        "variables": {}
+    },
+    "cordova-plugin-device-motion": {
+        "source": {
+            "type": "registry",
+            "id": "cordova-plugin-device-motion"
+        },
+        "is_top_level": true,
+        "variables": {}
+    },
+    "cordova-plugin-device-orientation": {
+        "source": {
+            "type": "registry",
+            "id": "cordova-plugin-device-orientation"
+        },
+        "is_top_level": true,
+        "variables": {}
+    },
+    "cordova-plugin-geolocation": {
+        "source": {
+            "type": "registry",
+            "id": "cordova-plugin-geolocation"
+        },
+        "is_top_level": true,
+        "variables": {}
+    },
     "cordova-plugin-console": {
         "source": {
             "type": "registry",
@@ -58,7 +90,7 @@
     "com.ezartech.ezar.videooverlay": {
         "source": {
             "type": "registry",
-            "id": "com.ezartech.ezar.videooverlay"
+            "id": "com.ezartech.ezar.videooverlay@1.0.3"
         },
         "is_top_level": true,
         "variables": {}

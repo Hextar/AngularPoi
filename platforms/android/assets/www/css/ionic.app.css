@@ -9822,6 +9822,9 @@ body {
   overflow-x: hidden;
   -webkit-user-select: none; }
 
+.no-background {
+  background-color: transparent !important; }
+
 .navbar {
   background-color: #222;
   height: 40px;
