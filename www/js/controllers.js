@@ -1,7 +1,7 @@
 angular.module('angular-poi')
 
     .controller("CameraController", function ($scope, $state, $rootScope, $ionicPlatform, $timeout,
-                                              Compass, Accellerometer, Geolocation, Camera, $log) {
+                                              Compass, Accellerometer, Geolocation, Camera) {
 
         var pin = [
             {"name": "Coccodì", "lat": "39.218365", "lng": "9.113795"},
@@ -13,18 +13,13 @@ angular.module('angular-poi')
 
         var markersArray = [], bounds;
         var bearing, distance;
-        $scope.dataLoading = false;
+        $rootScope.dataLoading = false;
 
-        window.ionic.Platform.ready(function () {
+        $ionicPlatform.ready(function () {
 
             Camera.initBackCamera();
 
             setupMap();
-
-            // start cordova device sensors
-            startAccelerometer();
-            startCompass();
-            startGeolocation();
 
             Compass.getCurrentHeading();
             Accellerometer.getCurrentAcceletation();
@@ -55,8 +50,8 @@ angular.module('angular-poi')
         }
 
         // get data from API and store in array, add to list view and create markers on map, calculate
-        $scope.loadData = function() {
-            dataLoading = true;
+        $rootScope.loadData = function() {
+            $rootScope.dataLoading = true;
             markersArray = [];
             bounds = new google.maps.LatLngBounds();
             // add blue gps marker
@@ -72,7 +67,7 @@ angular.module('angular-poi')
             }
             map.fitBounds(bounds);
             google.maps.event.trigger(map, "resize");
-            dataLoading = false;
+            $rootScope.dataLoading = false;
         }
 
         // add marker to map and in array
@@ -87,7 +82,7 @@ angular.module('angular-poi')
         }
 
         // calulate distance and bearing value for each of the points wrt gps lat/lng
-        $scope.relativePosition = function(i) {
+        relativePosition = function(i) {
             var EARTH_RADISU_KM = 6371.0072;
             var pinLat = pin[i].lat;
             var pinLng = pin[i].lng;
@@ -108,7 +103,7 @@ angular.module('angular-poi')
         }
 
         // calculate direction of points and display
-        $scope.calculateDirection = function(degree){
+        $rootScope.calculateDirection = function(degree){
             var detected = 0;
             $("#spot").html("");
             for(var i=0;i<pin.length;i++){
@@ -139,12 +134,12 @@ angular.module('angular-poi')
 
         }
 
-        $scope.showTop = function() {
+        $rootScope.showTop = function() {
             $("#arView").fadeIn();
             $("#topView").hide();
         }
 
-        $scope.hideTop = function() {
+        $rootScope.hideTop = function() {
             $("#arView").fadeIn();
             $("#topView").hide();
         }

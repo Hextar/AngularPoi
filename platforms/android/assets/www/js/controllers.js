@@ -1,7 +1,7 @@
 angular.module('angular-poi')
 
     .controller("CameraController", function ($scope, $state, $rootScope, $ionicPlatform, $timeout,
-                                              Compass, Accellerometer, Geolocation, Camera, $log) {
+                                              Compass, Accellerometer, Geolocation, Camera) {
 
         var pin = [
             {"name": "Coccodì", "lat": "39.218365", "lng": "9.113795"},
@@ -15,7 +15,7 @@ angular.module('angular-poi')
         var bearing, distance;
         $scope.dataLoading = false;
 
-        window.ionic.Platform.ready(function () {
+        $ionicPlatform.ready(function () {
 
             Camera.initBackCamera();
 
@@ -54,23 +54,6 @@ angular.module('angular-poi')
             map = new google.maps.Map(document.getElementById("map"), mapOptions);
         }
 
-        // toggle between list view and map view
-        function toggleView(){
-            if($(".listView").is(":visible")){
-                $(".listView").hide();
-                $("#map").height($(window).height()-60);
-                $(".mapView").fadeIn(
-                    function(){
-                        google.maps.event.trigger(map, "resize");
-                        map.fitBounds(bounds);});
-                $("#viewbtn").html("List");
-            } else {
-                $(".mapView").hide();
-                $(".listView").fadeIn();
-                $("#viewbtn").html("Map");
-            }
-        }
-
         // get data from API and store in array, add to list view and create markers on map, calculate
         $scope.loadData = function() {
             dataLoading = true;
@@ -106,7 +89,6 @@ angular.module('angular-poi')
         // calulate distance and bearing value for each of the points wrt gps lat/lng
         $scope.relativePosition = function(i) {
             var EARTH_RADISU_KM = 6371.0072;
-
             var pinLat = pin[i].lat;
             var pinLng = pin[i].lng;
             var dLat = ($rootScope.geo.lat - pinLat) * Math.PI / 180;

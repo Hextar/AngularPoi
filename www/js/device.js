@@ -33,7 +33,7 @@ angular.module('angular-poi')
                         $rootScope.compass.accuracy = result.headingAccuracy;
                         $rootScope.compass.timeStamp = result.timestamp;
 
-                        if (dataLoading != "loading") $scope.calculateDirection(result.magneticHeading);
+                        if (dataLoading != "loading") $rootScope.calculateDirection(result.magneticHeading);
                     }, function (err) {
                         $rootScope.errorList += err+" - ";
                     });
@@ -60,75 +60,9 @@ angular.module('angular-poi')
                             $rootScope.compass.accuracy = result.headingAccuracy;
                             $rootScope.compass.timeStamp = result.timestamp;
 
-                            if (dataLoading != "loading") $scope.calculateDirection(result.magneticHeading);
+                            if (dataLoading != "loading") $rootScope.calculateDirection(result.magneticHeading);
 
                             console.info("Compass: "+result.direction);
-                        });
-            });
-        };
-
-        this.clearWatch = function () {
-            if (angular.isDefined(this.watch)) {
-                this.watch.clearWatch();
-            }
-        };
-
-        return this;
-    })
-
-
-    .factory('Geolocation', function ($rootScope, $ionicPlatform, $cordovaGeolocation) {
-
-        this.options = {
-            timeout: 3000,
-            enableHighAccuracy: false
-        };
-
-        this.watch = undefined;
-
-        this.init = function () {
-            $rootScope.geo = {
-                lat: undefined,
-                lon: undefined
-            }
-        };
-
-        this.getCurrentPosition = function () {
-            if (!angular.isDefined($rootScope.geo)) {
-                this.init();
-            }
-            var posOptions = this.option;
-
-            $ionicPlatform.ready(function () {
-                $cordovaGeolocation
-                    .getCurrentPosition(posOptions)
-                    .then(function (position) {
-                        $rootScope.geo.lat = position.coords.latitude;
-                        $rootScope.geo.lon = position.coords.longitude;
-                        if(!$scope.dataLoading) $scope.loadData();
-                    }, function (err) {
-                        $rootScope.errorList += err+" - ";
-                    });
-            });
-        };
-
-        this.watchPosition = function () {
-            var watchOptions = this.options;
-            var position = this;
-            if (!angular.isDefined($rootScope.geo)) {
-                this.init();
-            }
-            $ionicPlatform.ready(function () {
-                position.watch = $cordovaGeolocation.watchPosition(watchOptions)
-                    .then(
-                        null,
-                        function (err) {
-                            $rootScope.errorList += err+" - ";
-                        },
-                        function (position) {
-                            $rootScope.geo.lat = position.coords.latitude;
-                            $rootScope.geo.lon = position.coords.longitude;
-                            if(!$scope.dataLoading) $scope.loadData();
                         });
             });
         };
@@ -168,8 +102,8 @@ angular.module('angular-poi')
                         $rootScope.motion.x = result.x;
                         $rootScope.motion.y = result.y;
                         $rootScope.motion.z = result.z;
-                        if (motion.y > 7) $scope.showTop();
-                        else $scope.hideTop();
+                        if (motion.y > 7) $rootScope.showTop();
+                        else $rootScope.hideTop();
                     }, function (err) {
                         $rootScope.errorList += err+" - ";
                     });
@@ -193,8 +127,75 @@ angular.module('angular-poi')
                             $rootScope.motion.x = result.x;
                             $rootScope.motion.y = result.y;
                             $rootScope.motion.z = result.z;
-                            if (motion.y > 7) $scope.showTop();
-                            else $scope.hideTop();
+                            if (motion.y > 7) $rootScope.showTop();
+                            else $rootScope.hideTop();
+                            console.info("Accelleration: "+motion.x+"-"+motion.y+"-"+motion.z);
+                        });
+            });
+        };
+
+        this.clearWatch = function () {
+            if (angular.isDefined(this.watch)) {
+                this.watch.clearWatch();
+            }
+        };
+
+        return this;
+    })
+
+    .factory('Geolocation', function ($rootScope, $ionicPlatform, $cordovaGeolocation) {
+
+        this.options = {
+            timeout: 3000,
+            enableHighAccuracy: false
+        };
+
+        this.watch = undefined;
+
+        this.init = function () {
+            $rootScope.geo = {
+                lat: undefined,
+                lon: undefined
+            }
+        };
+
+        this.getCurrentPosition = function () {
+            if (!angular.isDefined($rootScope.geo)) {
+                this.init();
+            }
+            var posOptions = this.option;
+
+            $ionicPlatform.ready(function () {
+                $cordovaGeolocation
+                    .getCurrentPosition(posOptions)
+                    .then(function (position) {
+                        $rootScope.geo.lat = position.coords.latitude;
+                        $rootScope.geo.lon = position.coords.longitude;
+                        if(!$rootScope.dataLoading) $rootScope.loadData();
+                    }, function (err) {
+                        $rootScope.errorList += err+" - ";
+                    });
+            });
+        };
+
+        this.watchPosition = function () {
+            var watchOptions = this.options;
+            var position = this;
+            if (!angular.isDefined($rootScope.geo)) {
+                this.init();
+            }
+            $ionicPlatform.ready(function () {
+                position.watch = $cordovaGeolocation.watchPosition(watchOptions)
+                    .then(
+                        null,
+                        function (err) {
+                            $rootScope.errorList += err+" - ";
+                        },
+                        function (geo) {
+                            $rootScope.geo.lat = geo.coords.latitude;
+                            $rootScope.geo.lon = geo.coords.longitude;
+                            if(!$rootScope.dataLoading) $rootScope.loadData();
+                            console.info("Geolocation: "+geo.lat+"-"+geo.lon);
                         });
             });
         };
@@ -207,3 +208,4 @@ angular.module('angular-poi')
 
         return this;
     });
+

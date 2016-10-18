@@ -26,7 +26,11 @@
     "cordova-plugin-statusbar",
     "ionic-plugin-keyboard",
     "cordova-plugin-fullscreen",
-    "com.ezartech.ezar.videooverlay@1.0.3"
+    "com.ezartech.ezar.videooverlay@1.0.3",
+    {
+      "locator": "https://git-wip-us.apache.org/repos/asf/cordova-plugin-inappbrowser.git",
+      "id": "cordova-plugin-inappbrowser"
+    }
   ],
   "cordovaPlatforms": [
     "android"
