@@ -1,6 +1,6 @@
 angular.module('angular-poi')
 
-    .controller("CameraController", function ($scope, $state, $rootScope, $ionicPlatform, $timeout,
+    .controller("CameraController", function ($scope, $sce, $state, $rootScope, $ionicPlatform, $timeout,
                                               Compass, Accellerometer, Geolocation, Camera) {
 
         var pin = [
@@ -10,6 +10,10 @@ angular.module('angular-poi')
             {"name": "Pizzeria Levante", "lat": "39.228395", "lng": "9.120056"},
             {"name": "Pizzeria Nicolino", "lat": "39.234539", "lng": "9.100404"}
         ];
+
+        var DISTANCE_THRESHOLD_1 = 5;
+        var DISTANCE_THRESHOLD_2 = 10;
+        var DISTANCE_THRESHOLD_3 = 20;
 
         var markersArray = [], bounds;
         var bearing, distance;
@@ -86,6 +90,7 @@ angular.module('angular-poi')
         // calulate distance and bearing value for each of the points wrt gps lat/lng
         relativePosition = function(i) {
             var EARTH_RADISU_KM = 6371.0072;
+
             var pinLat = pin[i].lat;
             var pinLng = pin[i].lng;
             var dLat = ($rootScope.geo.lat - pinLat) * Math.PI / 180;
@@ -107,16 +112,17 @@ angular.module('angular-poi')
         // calculate direction of points and display
         $rootScope.calculateDirection = function(degree){
             var detected = 0;
-            $("#spot").html("");
+            $scope.pois = $sce.trustAsHtml();
+            $scope.pois = poiList;
             for(var i=0;i<pin.length;i++){
                 if(Math.abs(pin[i].bearing - degree) <= 20){
                     var away, fontSize, fontColor;
-                    // varry font size based on distance from gps location
-                    if(pin[i].distance>1500){
+                    // vary font size based on distance from gps location
+                    if(pin[i].distance > DISTANCE_THRESHOLD_3){
                         away = Math.round(pin[i].distance);
                         fontSize = "16";
                         fontColor = "#ccc";
-                    } else if(pin[i].distance>500){
+                    } else if(pin[i].distance > DISTANCE_THRESHOLD_2){
                         away = Math.round(pin[i].distance);
                         fontSize = "24";
                         fontColor = "#ddd";
@@ -125,11 +131,14 @@ angular.module('angular-poi')
                         fontSize = "30";
                         fontColor = "#eee";
                     }
-                    $("#spot").append('<div class="name" data-id="'+i+'" style="margin-left:'+(((pin[i].bearing - degree) * 5)+50)+'px;width:'+($(window).width()-100)+'px;font-size:'+fontSize+'px;color:'+fontColor+'">'+pin[i].name+'<div class="distance">'+ away +' kilometers away</div></div>');
+                    poiList.push('<div class="name" data-id="'+i+'" style="margin-left:'+(((pin[i].bearing - degree) * 5)+50)+'px;width:'+($(window).width()-100)+'px;font-size:'+fontSize+'px;color:'+fontColor+'">'+pin[i].name+'<div class="distance">'+ away +' kilometers away</div></div>');
+                    console.debug(poiList);
+                    $scope.pois = $sce.trustAsHtml(poiList.toString());
                     detected = 1;
                 } else {
                     if(!detected){
-                        $("#spot").html("");
+                        poiList = [];
+                        $scope.pois = $sce.trustAsHtml();
                     }
                 }
             }
@@ -142,9 +151,8 @@ angular.module('angular-poi')
         }
 
         $rootScope.hideTop = function() {
-            if( 'jQuery' in window ) console.debug("porcoddio");
-            $("#arView").fadeIn();
-            $("#topView").hide();
+            $("#arView").hide();
+            $("#topView").fadeIn();
         }
 
     });

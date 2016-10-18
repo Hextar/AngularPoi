@@ -190,7 +190,7 @@ angular.module('angular-poi')
                         if (!$rootScope.dataLoading) {
                             $rootScope.loadData();
                         }
-                        console.info("Geolocation: " + $rootScope.geo.lat + "-" + $rootScope.geo.lon);
+                        //console.info("Geolocation: " + $rootScope.geo.lat + "-" + $rootScope.geo.lon);
                     });
         };
 

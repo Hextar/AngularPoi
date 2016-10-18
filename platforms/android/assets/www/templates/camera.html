@@ -7,12 +7,14 @@
             <br>
             <div id="direction">{{compass.direction}}</div>
             <br>
-            <div id="spot"></div>
+            <div id="spot">
+                <div ng-bind-html="pois"></div>
+            </div>
         </div>
         <div id="topView" class="no-background">
             <div class="navbar">
                 <!--<div id="actionbtn" class="navbtn"> &crarr; </div>-->
-                <div id="viewbtn" class="navbtn" onclick="toggleView()">Map</div>
+                <div id="viewbtn" class="navbtn">Map</div>
                 <div class="navtitle">Nearby</div>
             </div>
             <div class="listView">

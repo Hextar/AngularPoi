@@ -12,7 +12,7 @@ angular.module('angular-poi')
                     if (window.ezar) {
                         ezar.initializeVideoOverlay(
                             function () {
-                                //window.AndroidFullScreen.immersiveMode();
+                                window.AndroidFullScreen.immersiveMode();
                                 ezar.getBackCamera().start();
                             },
                             function (err) {

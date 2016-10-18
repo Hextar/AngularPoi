@@ -46,7 +46,7 @@
     <author email="you@example.com" href="http://example.com.com/">
       Your Name Here
     </author>
-    <content original-src="index.html" src="http://10.20.101.24:8101" />
+    <content original-src="index.html" src="http://10.20.101.24:8100" />
     <access origin="*" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
