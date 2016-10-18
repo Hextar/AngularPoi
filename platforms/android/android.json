@@ -78,6 +78,22 @@
                             "xml": "<uses-feature android:name=\"android.hardware.camera.autofocus\" />",
                             "count": 1
                         }
+                    ],
+                    "/manifest/application": [
+                        {
+                            "xml": "<receiver android:name=\"cordova.plugins.Diagnostic$LocationProviderChangedReceiver\"><intent-filter><action android:name=\"android.location.PROVIDERS_CHANGED\" /></intent-filter></receiver>",
+                            "count": 1
+                        }
+                    ]
+                }
+            },
+            "config.xml": {
+                "parents": {
+                    "/*": [
+                        {
+                            "xml": "<feature name=\"Diagnostic\"><param name=\"android-package\" value=\"cordova.plugins.Diagnostic\" /><param name=\"onload\" value=\"true\" /></feature>",
+                            "count": 1
+                        }
                     ]
                 }
             }
@@ -118,6 +134,9 @@
             "PACKAGE_NAME": "com.ionicframework.example685451"
         },
         "com.ezartech.ezar.videooverlay": {
+            "PACKAGE_NAME": "com.ionicframework.example685451"
+        },
+        "cordova.plugins.diagnostic": {
             "PACKAGE_NAME": "com.ionicframework.example685451"
         }
     },
@@ -233,6 +252,14 @@
             "clobbers": [
                 "camera"
             ]
+        },
+        {
+            "id": "cordova.plugins.diagnostic.Diagnostic",
+            "file": "plugins/cordova.plugins.diagnostic/www/android/diagnostic.js",
+            "pluginId": "cordova.plugins.diagnostic",
+            "clobbers": [
+                "cordova.plugins.diagnostic"
+            ]
         }
     ],
     "plugin_metadata": {
@@ -247,6 +274,7 @@
         "cordova-plugin-statusbar": "2.2.0",
         "ionic-plugin-keyboard": "2.2.1",
         "cordova-plugin-fullscreen": "1.1.0",
-        "com.ezartech.ezar.videooverlay": "0.2.4"
+        "com.ezartech.ezar.videooverlay": "0.2.4",
+        "cordova.plugins.diagnostic": "3.2.2"
     }
 }

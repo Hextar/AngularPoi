@@ -9,6 +9,7 @@
     </author>
   <content src="index.html"/>
   <access origin="*"/>
+  <access origin="*"/>
   <preference name="webviewbounce" value="false"/>
   <preference name="UIWebViewBounce" value="false"/>
   <preference name="DisallowOverscroll" value="true"/>
@@ -40,9 +41,23 @@
     <splash src="resources/android/splash/drawable-port-xxhdpi-screen.png" density="port-xxhdpi"/>
     <splash src="resources/android/splash/drawable-port-xxxhdpi-screen.png" density="port-xxxhdpi"/>
   </platform>
+  <platform name="android">
+    <allow-intent href="market:*"/>
+  </platform>
+  <platform name="ios">
+    <allow-intent href="itms:*"/>
+    <allow-intent href="itms-apps:*"/>
+  </platform>
+  <plugin name="cordova-plugin-whitelist" spec="1"/>
   <plugin name="com.ezartech.ezar.videooverlay" spec="/dev/ezar/plugins/com.ezartech.ezar.videoOverlay"/>
   <plugin name="cordova-plugin-device-orientation" spec="~1.0.4"/>
   <plugin name="cordova-plugin-device-motion" spec="~1.2.2"/>
   <plugin name="cordova-plugin-geolocation" spec="~2.3.0"/>
   <plugin name="com.ezartech.ezar.snapshot" spec="/dev/ezar/plugins/com.ezartech.ezar.snapshot"/>
+  <allow-intent href="http://*/*"/>
+  <allow-intent href="https://*/*"/>
+  <allow-intent href="tel:*"/>
+  <allow-intent href="sms:*"/>
+  <allow-intent href="mailto:*"/>
+  <allow-intent href="geo:*"/>
 </widget>

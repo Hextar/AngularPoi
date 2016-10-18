@@ -29,7 +29,9 @@ angular.module('angular-poi')
             Accellerometer.watchAcceleration();
             Geolocation.watchPosition();
 
-            if($rootScope.errorList != "") console.error($rootScope.errorList);
+            if($rootScope.errorList != undefined) {
+                console.error($rootScope.errorList);
+            }
 
         });
 
@@ -140,8 +142,9 @@ angular.module('angular-poi')
         }
 
         $rootScope.hideTop = function() {
-            $("#arView").fadeIn();
-            $("#topView").hide();
+            if( 'jQuery' in window ) console.debug("porcoddio");
+            $("#arView").hide();
+            $("#topView").fadeIn();
         }
 
     });

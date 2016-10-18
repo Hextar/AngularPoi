@@ -110,6 +110,14 @@ module.exports = [
         "clobbers": [
             "camera"
         ]
+    },
+    {
+        "id": "cordova.plugins.diagnostic.Diagnostic",
+        "file": "plugins/cordova.plugins.diagnostic/www/android/diagnostic.js",
+        "pluginId": "cordova.plugins.diagnostic",
+        "clobbers": [
+            "cordova.plugins.diagnostic"
+        ]
     }
 ];
 module.exports.metadata = 
@@ -126,7 +134,8 @@ module.exports.metadata =
     "cordova-plugin-statusbar": "2.2.0",
     "ionic-plugin-keyboard": "2.2.1",
     "cordova-plugin-fullscreen": "1.1.0",
-    "com.ezartech.ezar.videooverlay": "0.2.4"
+    "com.ezartech.ezar.videooverlay": "0.2.4",
+    "cordova.plugins.diagnostic": "3.2.2"
 };
 // BOTTOM OF METADATA
 });
