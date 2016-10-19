@@ -1,5 +1,5 @@
 <ion-pane id="camera-view" class="no-background">
-    <div id="arView" class="no-background">
+    <div id="arView" class="no-background" ng-if="arViewVisible">
         <div class="arMessage">&uarr;<br>Tilt down to see all places</div>
         <br>
         <div class="arMessage">&larr; Move the device around to find spots &rarr;</div>
@@ -10,7 +10,7 @@
             <div ng-bind-html="pois"></div>
         </div>
     </div>
-    <div id="topView" class="no-background">
+    <div id="topView" class="no-background" ng-if="arViewVisible">
         <div class="navbar">
             <!--<div id="actionbtn" class="navbtn"> &crarr; </div>-->
             <div id="viewbtn" class="navbtn">Map</div>

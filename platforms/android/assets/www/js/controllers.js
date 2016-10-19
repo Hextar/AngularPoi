@@ -1,7 +1,15 @@
-angular.module('angular-poi')
+(function () {
+    'use strict';
 
-    .controller("CameraController", function ($scope, $sce, $state, $rootScope, $ionicPlatform, $timeout,
-                                              Compass, Accellerometer, Geolocation, Camera) {
+    angular
+        .module('angular-poi')
+        .controller("CameraController", cameraController);
+
+    cameraController.$inject = ['$scope', '$sce', '$state', '$rootScope', '$ionicPlatform', '$timeout',
+        'Compass', 'Accellerometer', 'Geolocation', 'Camera'];
+
+    function cameraController($scope, $sce, $state, $rootScope, $ionicPlatform, $timeout,
+                              Compass, Accellerometer, Geolocation, Camera) {
 
         var pin = [
             {"name": "Coccodì", "lat": "39.218365", "lng": "9.113795"},
@@ -18,6 +26,8 @@ angular.module('angular-poi')
         var markersArray = [], bounds;
         var bearing, distance;
         $rootScope.dataLoading = false;
+        $scope.arViewVisible = false;
+        $scope.viewViewVisible = false;
 
         $ionicPlatform.ready(function () {
 
@@ -88,7 +98,7 @@ angular.module('angular-poi')
         }
 
         // calulate distance and bearing value for each of the points wrt gps lat/lng
-        relativePosition = function(i) {
+        function relativePosition(i) {
             var EARTH_RADISU_KM = 6371.0072;
 
             var pinLat = pin[i].lat;
@@ -112,7 +122,7 @@ angular.module('angular-poi')
         // calculate direction of points and display
         $rootScope.calculateDirection = function(degree){
             var detected = 0;
-            $scope.pois = $sce.trustAsHtml();
+            var poiList = [];
             $scope.pois = poiList;
             for(var i=0;i<pin.length;i++){
                 if(Math.abs(pin[i].bearing - degree) <= 20){
@@ -132,7 +142,7 @@ angular.module('angular-poi')
                         fontColor = "#eee";
                     }
                     poiList.push('<div class="name" data-id="'+i+'" style="margin-left:'+(((pin[i].bearing - degree) * 5)+50)+'px;width:'+($(window).width()-100)+'px;font-size:'+fontSize+'px;color:'+fontColor+'">'+pin[i].name+'<div class="distance">'+ away +' kilometers away</div></div>');
-                    console.debug(poiList);
+                    //console.debug(poiList);
                     $scope.pois = $sce.trustAsHtml(poiList.toString());
                     detected = 1;
                 } else {
@@ -145,14 +155,16 @@ angular.module('angular-poi')
 
         }
 
-        $rootScope.showTop = function() {
-            $("#arView").fadeIn();
-            $("#topView").hide();
+        $rootScope.showTop = function () {
+            $scope.arViewVisible = true;
+            $scope.topViewVisible = false;
         }
 
-        $rootScope.hideTop = function() {
-            $("#arView").hide();
-            $("#topView").fadeIn();
+        $rootScope.hideTop = function () {
+            $scope.topViewVisible = true;
+            $scope.arViewVisible = false;
         }
 
-    });
+    }
+
+})();

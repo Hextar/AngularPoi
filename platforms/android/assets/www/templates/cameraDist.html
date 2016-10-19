@@ -1,5 +1,5 @@
 <ion-pane id="camera-view" class="no-background">
-    <div id="arView" class="no-background">
+    <div id="arView" class="no-background" ng-if="arViewVisible">
         <div class="arMessage">&uarr;<br>Tilt down to see all places</div>
         <br>
         <div class="arMessage">&larr; Move the device around to find spots &rarr;</div>
@@ -10,7 +10,7 @@
             <div ng-bind-html="pois"></div>
         </div>
     </div>
-    <div id="topView" class="no-background">
+    <div id="topView" class="no-background" ng-if="topViewVisible">
         <div class="navbar">
             <!--<div id="actionbtn" class="navbtn"> &crarr; </div>-->
             <div id="viewbtn" class="navbtn">Map</div>
@@ -22,26 +22,5 @@
         <div class="mapView">
             <div id="map"></div>
         </div>
-    </div>
-    <div id="debug">
-        <div class="heading">Geolocation</div>
-        <div id="geolocation"></div>
-        LAT: {{geo.lat}}
-        LON: {{geo.lon}}
-        <div class="heading">Compass</div>
-        <div id="compass"></div>
-        DIRECTION: {{compass.direction}}
-        MAG. HEADING: {{compass.magneticHeading}}
-        TRUE HEADING {{compass.trueHeading}}
-        ACCURACY: {{compass.accuracy}}
-        <div class="heading">Accelerometer</div>
-        <div id="accelerometer">
-            X: {{motion.x}}
-            Y: {{motion.y}}
-            Z: {{motion.z}}
-        </div>
-        <div class="heading">Log</div>
-        <div id="log"></div>
-        ERRORI: {{errorList}}
     </div>
 </ion-pane>
