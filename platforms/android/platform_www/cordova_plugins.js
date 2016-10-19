@@ -118,6 +118,15 @@ module.exports = [
         "clobbers": [
             "cordova.plugins.diagnostic"
         ]
+    },
+    {
+        "id": "cordova-plugin-inappbrowser.inappbrowser",
+        "file": "plugins/cordova-plugin-inappbrowser/www/inappbrowser.js",
+        "pluginId": "cordova-plugin-inappbrowser",
+        "clobbers": [
+            "cordova.InAppBrowser.open",
+            "window.open"
+        ]
     }
 ];
 module.exports.metadata = 
@@ -135,7 +144,8 @@ module.exports.metadata =
     "ionic-plugin-keyboard": "2.2.1",
     "cordova-plugin-fullscreen": "1.1.0",
     "com.ezartech.ezar.videooverlay": "0.2.4",
-    "cordova.plugins.diagnostic": "3.2.2"
+    "cordova.plugins.diagnostic": "3.2.2",
+    "cordova-plugin-inappbrowser": "1.5.1-dev"
 };
 // BOTTOM OF METADATA
 });

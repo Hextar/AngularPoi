@@ -47,6 +47,10 @@
                         {
                             "xml": "<feature name=\"videoOverlay\"><param name=\"android-package\" value=\"com.ezartech.ezar.videooverlay.ezAR\" /><param name=\"onload\" value=\"false\" /></feature>",
                             "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"InAppBrowser\"><param name=\"android-package\" value=\"org.apache.cordova.inappbrowser.InAppBrowser\" /></feature>",
+                            "count": 1
                         }
                     ]
                 }
@@ -137,6 +141,9 @@
             "PACKAGE_NAME": "com.ionicframework.example685451"
         },
         "cordova.plugins.diagnostic": {
+            "PACKAGE_NAME": "com.ionicframework.example685451"
+        },
+        "cordova-plugin-inappbrowser": {
             "PACKAGE_NAME": "com.ionicframework.example685451"
         }
     },
@@ -260,6 +267,15 @@
             "clobbers": [
                 "cordova.plugins.diagnostic"
             ]
+        },
+        {
+            "id": "cordova-plugin-inappbrowser.inappbrowser",
+            "file": "plugins/cordova-plugin-inappbrowser/www/inappbrowser.js",
+            "pluginId": "cordova-plugin-inappbrowser",
+            "clobbers": [
+                "cordova.InAppBrowser.open",
+                "window.open"
+            ]
         }
     ],
     "plugin_metadata": {
@@ -275,6 +291,7 @@
         "ionic-plugin-keyboard": "2.2.1",
         "cordova-plugin-fullscreen": "1.1.0",
         "com.ezartech.ezar.videooverlay": "0.2.4",
-        "cordova.plugins.diagnostic": "3.2.2"
+        "cordova.plugins.diagnostic": "3.2.2",
+        "cordova-plugin-inappbrowser": "1.5.1-dev"
     }
 }
