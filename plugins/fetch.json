@@ -12,13 +12,13 @@
             "type": "registry",
             "id": "cordova-plugin-compat"
         },
-        "is_top_level": true,
+        "is_top_level": false,
         "variables": {}
     },
     "cordova-plugin-device-motion": {
         "source": {
             "type": "registry",
-            "id": "cordova-plugin-device-motion"
+            "id": "cordova-plugin-device-motion@~1.2.2"
         },
         "is_top_level": true,
         "variables": {}
@@ -26,7 +26,7 @@
     "cordova-plugin-device-orientation": {
         "source": {
             "type": "registry",
-            "id": "cordova-plugin-device-orientation"
+            "id": "cordova-plugin-device-orientation@~1.0.4"
         },
         "is_top_level": true,
         "variables": {}
@@ -34,7 +34,7 @@
     "cordova-plugin-geolocation": {
         "source": {
             "type": "registry",
-            "id": "cordova-plugin-geolocation"
+            "id": "cordova-plugin-geolocation@~2.3.0"
         },
         "is_top_level": true,
         "variables": {}

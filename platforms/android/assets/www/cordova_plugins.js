@@ -127,7 +127,7 @@ module.exports.metadata =
     "cordova-plugin-compat": "1.0.0",
     "cordova-plugin-device-motion": "1.2.2",
     "cordova-plugin-device-orientation": "1.0.4",
-    "cordova-plugin-geolocation": "2.4.0",
+    "cordova-plugin-geolocation": "2.3.0",
     "cordova-plugin-console": "1.0.4",
     "cordova-plugin-whitelist": "1.3.0",
     "cordova-plugin-splashscreen": "4.0.0",

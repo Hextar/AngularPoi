@@ -50,7 +50,6 @@
 
         });
 
-
         // setup google maps api
         function setupMap(){
             $("#map").height($(window).height()-60);
