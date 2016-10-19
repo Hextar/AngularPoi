@@ -1,7 +1,15 @@
-angular.module('angular-poi')
+(function () {
+    'use strict';
 
-    .controller("CameraController", function ($scope, $sce, $state, $rootScope, $ionicPlatform, $timeout,
-                                              Compass, Accellerometer, Geolocation, Camera) {
+    angular
+        .module('angular-poi')
+        .controller("CameraController", cameraController);
+
+    cameraController.$inject = ['$scope', '$sce', '$rootScope', '$ionicPlatform',
+        'Compass', 'Accellerometer', 'Geolocation', 'Camera'];
+
+    function cameraController($scope, $sce, $rootScope, $ionicPlatform,
+                              Compass, Accellerometer, Geolocation, Camera) {
 
         var pin = [
             {"name": "Coccodì", "lat": "39.218365", "lng": "9.113795"},
@@ -18,12 +26,14 @@ angular.module('angular-poi')
         var markersArray = [], bounds;
         var bearing, distance;
         $rootScope.dataLoading = false;
+        $scope.arViewVisible = false;
+        $scope.viewViewVisible = false;
 
         $ionicPlatform.ready(function () {
 
             Camera.initBackCamera();
 
-            setupMap();
+            //setupMap();
 
             Compass.getCurrentHeading();
             Accellerometer.getCurrentAcceletation();
@@ -33,16 +43,15 @@ angular.module('angular-poi')
             Accellerometer.watchAcceleration();
             Geolocation.watchPosition();
 
-            if($rootScope.errorList != undefined) {
+            if ($rootScope.errorList != undefined) {
                 console.error($rootScope.errorList);
             }
 
         });
 
-
         // setup google maps api
-        function setupMap(){
-            $("#map").height($(window).height()-60);
+        function setupMap() {
+            $("#map").height($(window).height() - 60);
             var mapOptions = {
                 zoom: 13,
                 mapTypeControl: false,
@@ -56,24 +65,29 @@ angular.module('angular-poi')
         }
 
         // get data from API and store in array, add to list view and create markers on map, calculate
-        $rootScope.loadData = function() {
+        $rootScope.loadData = function () {/*
             $rootScope.dataLoading = true;
             markersArray = [];
             bounds = new google.maps.LatLngBounds();
             // add blue gps marker
-            var icon = new google.maps.MarkerImage('http://www.google.com/intl/en_us/mapfiles/ms/micons/blue-dot.png',new google.maps.Size(30, 28),new google.maps.Point(0,0),new google.maps.Point(9, 28));
-            var gpsMarker = new google.maps.Marker({position: new google.maps.LatLng($rootScope.geo.lat, $rootScope.geo.lon), map: map, title: "My Position", icon:icon});
+            var icon = new google.maps.MarkerImage('http://www.google.com/intl/en_us/mapfiles/ms/micons/blue-dot.png', new google.maps.Size(30, 28), new google.maps.Point(0, 0), new google.maps.Point(9, 28));
+            var gpsMarker = new google.maps.Marker({
+                position: new google.maps.LatLng($rootScope.geo.lat, $rootScope.geo.lon),
+                map: map,
+                title: "My Position",
+                icon: icon
+            });
             bounds.extend(new google.maps.LatLng($rootScope.geo.lat, $rootScope.geo.lon));
             markersArray.push(gpsMarker);
             // add all location markers to map and list view and array
-            for(var i=0; i< pin.length; i++){
-                $(".listItems").append("<div class='item'>"+pin[i].name+"</div>");
+            for (var i = 0; i < pin.length; i++) {
+                $(".listItems").append("<div class='item'>" + pin[i].name + "</div>");
                 addMarker(i);
                 relativePosition(i);
             }
             map.fitBounds(bounds);
             google.maps.event.trigger(map, "resize");
-            $rootScope.dataLoading = false;
+            $rootScope.dataLoading = false;*/
         }
 
         // add marker to map and in array
@@ -88,9 +102,8 @@ angular.module('angular-poi')
         }
 
         // calulate distance and bearing value for each of the points wrt gps lat/lng
-        relativePosition = function(i) {
+        function relativePosition(i) {
             var EARTH_RADISU_KM = 6371.0072;
-
             var pinLat = pin[i].lat;
             var pinLng = pin[i].lng;
             var dLat = ($rootScope.geo.lat - pinLat) * Math.PI / 180;
@@ -110,19 +123,19 @@ angular.module('angular-poi')
         }
 
         // calculate direction of points and display
-        $rootScope.calculateDirection = function(degree){
+        $rootScope.calculateDirection = function (degree) {
             var detected = 0;
-            $scope.pois = $sce.trustAsHtml();
+            var poiList = [];
             $scope.pois = poiList;
-            for(var i=0;i<pin.length;i++){
-                if(Math.abs(pin[i].bearing - degree) <= 20){
+            for (var i = 0; i < pin.length; i++) {
+                if (Math.abs(pin[i].bearing - degree) <= 20) {
                     var away, fontSize, fontColor;
                     // vary font size based on distance from gps location
-                    if(pin[i].distance > DISTANCE_THRESHOLD_3){
+                    if (pin[i].distance > DISTANCE_THRESHOLD_3) {
                         away = Math.round(pin[i].distance);
                         fontSize = "16";
                         fontColor = "#ccc";
-                    } else if(pin[i].distance > DISTANCE_THRESHOLD_2){
+                    } else if (pin[i].distance > DISTANCE_THRESHOLD_2) {
                         away = Math.round(pin[i].distance);
                         fontSize = "24";
                         fontColor = "#ddd";
@@ -131,28 +144,28 @@ angular.module('angular-poi')
                         fontSize = "30";
                         fontColor = "#eee";
                     }
-                    poiList.push('<div class="name" data-id="'+i+'" style="margin-left:'+(((pin[i].bearing - degree) * 5)+50)+'px;width:'+($(window).width()-100)+'px;font-size:'+fontSize+'px;color:'+fontColor+'">'+pin[i].name+'<div class="distance">'+ away +' kilometers away</div></div>');
-                    console.debug(poiList);
+                    poiList.push('<div class="name" data-id="' + i + '" style="margin-left:' + (((pin[i].bearing - degree) * 5) + 50) + 'px;width:' + ($(window).width() - 100) + 'px;font-size:' + fontSize + 'px;color:' + fontColor + '">' + pin[i].name + '<div class="distance">' + away + ' kilometers away</div></div>');
+                    //console.debug(poiList);
                     $scope.pois = $sce.trustAsHtml(poiList.toString());
                     detected = 1;
                 } else {
-                    if(!detected){
+                    if (!detected) {
                         poiList = [];
                         $scope.pois = $sce.trustAsHtml();
                     }
                 }
             }
-
         }
 
-        $rootScope.showTop = function() {
-            $("#arView").fadeIn();
-            $("#topView").hide();
+        $rootScope.showTop = function () {
+            $scope.arViewVisible = true;
+            $scope.topViewVisible = false;
         }
 
-        $rootScope.hideTop = function() {
-            $("#arView").hide();
-            $("#topView").fadeIn();
+        $rootScope.hideTop = function () {
+            $scope.topViewVisible = true;
+            $scope.arViewVisible = false;
         }
+    }
 
-    });
+})();
