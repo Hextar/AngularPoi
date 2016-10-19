@@ -2,25 +2,7 @@
     'use strict';
 
     angular
-        .module('angular-poi')
-        .directive('angularPoi', directive);
-
-    function directive() {
-        return {
-            restrict: 'AE',
-            templateUrl: "templates/cameraAR.html",
-            controller: 'CameraController'
-        };
-    }
-
-})();
-
-
-(function () {
-    'use strict';
-
-    angular
-        .module('angular-poi')
+        .module('angular-poi', ['templates'])
         .controller("CameraController", cameraController);
 
     cameraController.$inject = ['$scope', '$sce', '$rootScope', '$ionicPlatform',
@@ -195,6 +177,24 @@ angular.module("templates", []).run(["$templateCache", function ($templateCache)
 }]);
 
 
+(function () {
+    'use strict';
+
+    angular
+        .module('angular-poi')
+        .directive('angularPoi', directive);
+
+    function directive() {
+        return {
+            restrict: 'AE',
+            templateUrl: "templates/cameraAR.html",
+            controller: 'CameraController'
+        };
+    }
+
+})();
+
+
 /*** ********* ***/
 /*** Camera.js ***/
 /*** ********* ***/
@@ -244,9 +244,9 @@ angular.module("templates", []).run(["$templateCache", function ($templateCache)
         .module('angular-poi')
         .factory('Compass', compass);
 
-    compass.$inject = ['$rootScope', '$ionicPlatform', '$cordovaDeviceOrientation'];
+    compass.$inject = ['$rootScope', '$cordovaDeviceOrientation'];
 
-    function compass($rootScope, $ionicPlatform, $cordovaDeviceOrientation) {
+    function compass($rootScope, $cordovaDeviceOrientation) {
 
         this.options = {
             frequency: 100
