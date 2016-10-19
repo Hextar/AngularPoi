@@ -1,6 +1,16 @@
-angular.module('angular-poi')
+/*** ********** ***/
+/*** Compass.js ***/
+/*** ********** ***/
+(function () {
+    'use strict';
 
-    .factory('Compass', function ($rootScope, $ionicPlatform, $cordovaDeviceOrientation) {
+    angular
+        .module('angular-poi')
+        .factory('Compass', compass);
+
+    compass.$inject = ['$rootScope', '$ionicPlatform', '$cordovaDeviceOrientation'];
+
+    function compass($rootScope, $ionicPlatform, $cordovaDeviceOrientation) {
 
         this.options = {
             frequency: 100
@@ -72,9 +82,23 @@ angular.module('angular-poi')
         };
 
         return this;
-    })
+    }
 
-    .factory('Accellerometer', function ($rootScope, $ionicPlatform, $cordovaDeviceMotion) {
+})();
+
+/*** ***************** ***/
+/*** Accellerometer.js ***/
+/*** ***************** ***/
+(function () {
+    'use strict';
+
+    angular
+        .module('angular-poi')
+        .factory('Accellerometer', accellerometer);
+
+    accellerometer.$inject = ['$rootScope', '$cordovaDeviceMotion'];
+
+    function accellerometer($rootScope, $cordovaDeviceMotion) {
 
         this.options = {
             frequency: 100
@@ -135,9 +159,24 @@ angular.module('angular-poi')
         };
 
         return this;
-    })
+    }
 
-    .factory('Geolocation', function ($rootScope, $ionicPlatform, $cordovaGeolocation) {
+})();
+
+/*** ************** ***/
+/*** Geolocation.js ***/
+/*** ************** ***/
+(function () {
+    'use strict';
+
+    angular
+        .module('angular-poi')
+        .factory('Geolocation', geolocation);
+
+    geolocation.$inject = ['$rootScope', '$ionicPlatform', '$cordovaGeolocation'];
+
+    function geolocation($rootScope, $ionicPlatform, $cordovaGeolocation) {
+
 
         this.options = {
             timeout: 3000,
@@ -201,5 +240,7 @@ angular.module('angular-poi')
         };
 
         return this;
-    });
 
+    }
+
+})();

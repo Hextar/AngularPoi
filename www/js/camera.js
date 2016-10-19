@@ -1,7 +1,13 @@
-angular.module('angular-poi')
+(function () {
+    'use strict';
 
-    .factory('Camera', function ($rootScope, $ionicPlatform) {
+    angular
+        .module('angular-poi')
+        .factory('Camera', camera);
 
+    camera.$inject = ['$ionicPlatform'];
+
+    function camera($ionicPlatform) {
         return {
 
             initBackCamera: function () {
@@ -23,4 +29,6 @@ angular.module('angular-poi')
                 });
             }
         };
-    });
+    }
+
+})();

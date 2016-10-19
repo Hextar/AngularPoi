@@ -1,7 +1,15 @@
-angular.module('angular-poi')
+(function () {
+    'use strict';
 
-    .controller("CameraController", function ($scope, $sce, $state, $rootScope, $ionicPlatform, $timeout,
-                                              Compass, Accellerometer, Geolocation, Camera) {
+    angular
+        .module('angular-poi')
+        .controller("CameraController", cameraController);
+
+    cameraController.$inject = ['$scope', '$sce', '$state', '$rootScope', '$ionicPlatform', '$timeout',
+        'Compass', 'Accellerometer', 'Geolocation', 'Camera'];
+
+    function cameraController($scope, $sce, $state, $rootScope, $ionicPlatform, $timeout,
+                              Compass, Accellerometer, Geolocation, Camera) {
 
         var pin = [
             {"name": "Coccodì", "lat": "39.218365", "lng": "9.113795"},
@@ -132,7 +140,7 @@ angular.module('angular-poi')
                         fontColor = "#eee";
                     }
                     poiList.push('<div class="name" data-id="'+i+'" style="margin-left:'+(((pin[i].bearing - degree) * 5)+50)+'px;width:'+($(window).width()-100)+'px;font-size:'+fontSize+'px;color:'+fontColor+'">'+pin[i].name+'<div class="distance">'+ away +' kilometers away</div></div>');
-                    console.debug(poiList);
+                    //console.debug(poiList);
                     $scope.pois = $sce.trustAsHtml(poiList.toString());
                     detected = 1;
                 } else {
@@ -155,4 +163,6 @@ angular.module('angular-poi')
             $("#topView").fadeIn();
         }
 
-    });
+    }
+
+})();
