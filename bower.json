@@ -1,0 +1,20 @@
+{
+  "name": "angular-poi",
+  "description": "A Virtual Reality plugin to show POI on your mobile camera",
+  "version": "0.1",
+  "homepage": "https://github.com/Hextar/POI",
+  "_source": "https://github.com/Hextar/POI.git",
+  "private": "true",
+  "devDependencies": {
+    "ionic": "driftyco/ionic-bower#1.3.1"
+  },
+  "dependencies": {
+    "angular": "~1.5.0",
+    "ngCordova": "^0.1.27-alpha",
+    "angular-route": "~1.5.0",
+    "angular-loader": "~1.5.0",
+    "angular-mocks": "~1.5.0",
+    "html5-boilerplate": "^5.3.0",
+    "angular-resource": "^1.5.8"
+  }
+}
