@@ -28,6 +28,7 @@
         $rootScope.dataLoading = false;
         $scope.arViewVisible = false;
         $scope.viewViewVisible = false;
+        $scope.poiList = [];
 
         $ionicPlatform.ready(function () {
 
@@ -77,9 +78,10 @@
             bounds.extend(new google.maps.LatLng($rootScope.geo.lat, $rootScope.geo.lon));
             markersArray.push(gpsMarker);*/
 
+            $scope.poiList = [];
             for(var i=0; i< pin.length; i++){
-                $(".listItems").append("<div class='item'>"+pin[i].name+"</div>");
                 //addMarker(i);
+                $scope.poiList.push(pin[i]);
                 relativePosition(i);
             }
 
@@ -104,7 +106,6 @@
         // calulate distance and bearing value for each of the points wrt gps lat/lng
         function relativePosition(i) {
             var EARTH_RADISU_KM = 6371.0072;
-
             var pinLat = pin[i].lat;
             var pinLng = pin[i].lng;
             var dLat = ($rootScope.geo.lat - pinLat) * Math.PI / 180;
@@ -116,7 +117,6 @@
             bearing = Math.atan2(y, x) * 180 / Math.PI;
             bearing = bearing + 180;
             pin[i]['bearing'] = bearing;
-
             var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) + Math.sin(dLon / 2) * Math.sin(dLon / 2) * Math.cos(lat1) * Math.cos(lat2);
             var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
             distance = EARTH_RADISU_KM * c;

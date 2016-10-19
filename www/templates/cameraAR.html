@@ -10,15 +10,17 @@
             <div ng-bind-html="pois"></div>
         </div>
     </div>
-    <div id="topView" class="no-background" ng-if="topViewVisible">
+    <div id="topView"  ng-if="topViewVisible">
         <div class="navbar">
-            <!--<div id="actionbtn" class="navbtn"> &crarr; </div>-->
+            <div id="actionbtn" class="navbtn"> &crarr; </div>
             <div id="viewbtn" class="navbtn">Map</div>
             <div class="navtitle">Nearby</div>
         </div>
-        <div class="listView">
-            <div class="listItems"></div>
-        </div>
+        <ul class="list">
+            <li class="item" ng-repeat="poi in poiList track by $index">
+                {{poi.name}}
+            </li>
+        </ul>
         <div class="mapView">
             <div id="map"></div>
         </div>

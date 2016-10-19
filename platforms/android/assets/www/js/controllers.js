@@ -28,6 +28,7 @@
         $rootScope.dataLoading = false;
         $scope.arViewVisible = false;
         $scope.viewViewVisible = false;
+        $scope.poiList = [];
 
         $ionicPlatform.ready(function () {
 
@@ -77,9 +78,10 @@
             bounds.extend(new google.maps.LatLng($rootScope.geo.lat, $rootScope.geo.lon));
             markersArray.push(gpsMarker);*/
 
+            $scope.poiList = [];
             for(var i=0; i< pin.length; i++){
-                $(".listItems").append("<div class='item'>"+pin[i].name+"</div>");
                 //addMarker(i);
+                $scope.poiList.push(pin[i]);
                 relativePosition(i);
             }
 

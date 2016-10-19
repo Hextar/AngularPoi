@@ -16,6 +16,11 @@
             <div id="viewbtn" class="navbtn">Map</div>
             <div class="navtitle">Nearby</div>
         </div>
+        <ul class="list">
+            <li class="item" ng-repeat="poi in poiList track by $index">
+                {{poi.name}}
+            </li>
+        </ul>
         <div class="listView">
             <div class="listItems"></div>
         </div>
