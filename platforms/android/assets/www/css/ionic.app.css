@@ -9891,10 +9891,6 @@ body {
 #map {
   height: 200px; }
 
-#arView,
-#topView {
-  display: none; }
-
 #arView {
   padding: 30px 0;
   height: 70px;

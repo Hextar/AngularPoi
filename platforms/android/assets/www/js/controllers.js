@@ -51,7 +51,7 @@
 
 
         // setup google maps api
-        function setupMap(){
+        function setupMap(){/*
             $("#map").height($(window).height()-60);
             var mapOptions = {
                 zoom: 13,
@@ -62,7 +62,7 @@
                 navigationControlOptions: {style: google.maps.NavigationControlStyle.SMALL},
                 mapTypeId: google.maps.MapTypeId.ROADMAP
             };
-            map = new google.maps.Map(document.getElementById("map"), mapOptions);
+            map = new google.maps.Map(document.getElementById("map"), mapOptions);*/
         }
 
         // get data from API and store in array, add to list view and create markers on map, calculate
@@ -81,7 +81,7 @@
                 addMarker(i);
                 relativePosition(i);
             }
-            map.fitBounds(bounds);
+            //map.fitBounds(bounds);
             google.maps.event.trigger(map, "resize");
             $rootScope.dataLoading = false;
         }

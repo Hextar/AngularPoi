@@ -34,7 +34,7 @@ angular.module('angular-poi', ['ionic', 'ngCordova', 'ngSanitize'])
         // setup an abstract state for the tabs directive
             .state('home', {
                 url: '/home',
-                templateUrl: 'templates/camera.html',
+                templateUrl: 'templates/home.html',
                 controller: "CameraController"
             })
 

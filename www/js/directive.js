@@ -5,12 +5,10 @@
         .module('angular-poi')
         .directive('angularPoi', directive);
 
-    directive.$inject = [];
-
     function directive() {
         return {
             restrict: 'AE',
-            templateUrl: "templates/camera.html",
+            templateUrl: "templates/cameraAR.html",
             controller: 'CameraController'
         };
     }
