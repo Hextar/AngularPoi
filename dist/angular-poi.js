@@ -85,7 +85,7 @@
         }
 
         // get data from API and store in array, add to list view and create markers on map, calculate
-        $rootScope.loadData = function () {/*
+        $rootScope.loadData = function () {
          $rootScope.dataLoading = true;
          markersArray = [];
          bounds = new google.maps.LatLngBounds();
@@ -105,9 +105,9 @@
          addMarker(i);
          relativePosition(i);
          }
-         map.fitBounds(bounds);
+         //map.fitBounds(bounds);
          google.maps.event.trigger(map, "resize");
-         $rootScope.dataLoading = false;*/
+         $rootScope.dataLoading = false;
         }
 
         // add marker to map and in array
