@@ -9,23 +9,23 @@
                 "parents": {
                     "/*": [
                         {
-                            "xml": "<feature name=\"Device\"><param name=\"android-package\" value=\"org.apache.cordova.device.Device\" /></feature>",
+                            "xml": "<feature name=\"Whitelist\"><param name=\"android-package\" value=\"org.apache.cordova.whitelist.WhitelistPlugin\" /><param name=\"onload\" value=\"true\" /></feature>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"Compass\"><param name=\"android-package\" value=\"org.apache.cordova.deviceorientation.CompassListener\" /></feature>",
                             "count": 1
                         },
                         {
                             "xml": "<feature name=\"Accelerometer\"><param name=\"android-package\" value=\"org.apache.cordova.devicemotion.AccelListener\" /></feature>",
-                            "count": 2
-                        },
-                        {
-                            "xml": "<feature name=\"Compass\"><param name=\"android-package\" value=\"org.apache.cordova.deviceorientation.CompassListener\" /></feature>",
-                            "count": 2
+                            "count": 1
                         },
                         {
                             "xml": "<feature name=\"Geolocation\"><param name=\"android-package\" value=\"org.apache.cordova.geolocation.Geolocation\" /></feature>",
-                            "count": 2
+                            "count": 1
                         },
                         {
-                            "xml": "<feature name=\"Whitelist\"><param name=\"android-package\" value=\"org.apache.cordova.whitelist.WhitelistPlugin\" /><param name=\"onload\" value=\"true\" /></feature>",
+                            "xml": "<feature name=\"Device\"><param name=\"android-package\" value=\"org.apache.cordova.device.Device\" /></feature>",
                             "count": 1
                         },
                         {
@@ -47,6 +47,10 @@
                         {
                             "xml": "<feature name=\"videoOverlay\"><param name=\"android-package\" value=\"com.ezartech.ezar.videooverlay.ezAR\" /><param name=\"onload\" value=\"false\" /></feature>",
                             "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"InAppBrowser\"><param name=\"android-package\" value=\"org.apache.cordova.inappbrowser.InAppBrowser\" /></feature>",
+                            "count": 1
                         }
                     ]
                 }
@@ -56,15 +60,11 @@
                     "/*": [
                         {
                             "xml": "<uses-permission android:name=\"android.permission.ACCESS_COARSE_LOCATION\" />",
-                            "count": 4
+                            "count": 2
                         },
                         {
                             "xml": "<uses-permission android:name=\"android.permission.ACCESS_FINE_LOCATION\" />",
-                            "count": 4
-                        },
-                        {
-                            "xml": "<uses-feature android:name=\"android.hardware.location.gps\" />",
-                            "count": 1
+                            "count": 2
                         },
                         {
                             "xml": "<uses-permission android:name=\"android.permission.CAMERA\" />",
@@ -78,47 +78,31 @@
                             "xml": "<uses-feature android:name=\"android.hardware.camera.autofocus\" />",
                             "count": 1
                         }
-                    ],
-                    "/manifest/application": [
-                        {
-                            "xml": "<receiver android:name=\"cordova.plugins.Diagnostic$LocationProviderChangedReceiver\"><intent-filter><action android:name=\"android.location.PROVIDERS_CHANGED\" /></intent-filter></receiver>",
-                            "count": 1
-                        }
-                    ]
-                }
-            },
-            "config.xml": {
-                "parents": {
-                    "/*": [
-                        {
-                            "xml": "<feature name=\"Diagnostic\"><param name=\"android-package\" value=\"cordova.plugins.Diagnostic\" /><param name=\"onload\" value=\"true\" /></feature>",
-                            "count": 1
-                        }
                     ]
                 }
             }
         }
     },
     "installed_plugins": {
-        "cordova-plugin-device": {
-            "PACKAGE_NAME": "com.ionicframework.example685451"
-        },
-        "cordova-plugin-compat": {
-            "PACKAGE_NAME": "com.ionicframework.example685451"
-        },
-        "cordova-plugin-device-motion": {
+        "cordova-plugin-whitelist": {
             "PACKAGE_NAME": "com.ionicframework.example685451"
         },
         "cordova-plugin-device-orientation": {
             "PACKAGE_NAME": "com.ionicframework.example685451"
         },
+        "cordova-plugin-device-motion": {
+            "PACKAGE_NAME": "com.ionicframework.example685451"
+        },
+        "cordova-plugin-compat": {
+            "PACKAGE_NAME": "com.ionicframework.example685451"
+        },
         "cordova-plugin-geolocation": {
             "PACKAGE_NAME": "com.ionicframework.example685451"
         },
-        "cordova-plugin-console": {
+        "cordova-plugin-device": {
             "PACKAGE_NAME": "com.ionicframework.example685451"
         },
-        "cordova-plugin-whitelist": {
+        "cordova-plugin-console": {
             "PACKAGE_NAME": "com.ionicframework.example685451"
         },
         "cordova-plugin-splashscreen": {
@@ -136,36 +120,12 @@
         "com.ezartech.ezar.videooverlay": {
             "PACKAGE_NAME": "com.ionicframework.example685451"
         },
-        "cordova.plugins.diagnostic": {
+        "cordova-plugin-inappbrowser": {
             "PACKAGE_NAME": "com.ionicframework.example685451"
         }
     },
     "dependent_plugins": {},
     "modules": [
-        {
-            "id": "cordova-plugin-device.device",
-            "file": "plugins/cordova-plugin-device/www/device.js",
-            "pluginId": "cordova-plugin-device",
-            "clobbers": [
-                "device"
-            ]
-        },
-        {
-            "id": "cordova-plugin-device-motion.Acceleration",
-            "file": "plugins/cordova-plugin-device-motion/www/Acceleration.js",
-            "pluginId": "cordova-plugin-device-motion",
-            "clobbers": [
-                "Acceleration"
-            ]
-        },
-        {
-            "id": "cordova-plugin-device-motion.accelerometer",
-            "file": "plugins/cordova-plugin-device-motion/www/accelerometer.js",
-            "pluginId": "cordova-plugin-device-motion",
-            "clobbers": [
-                "navigator.accelerometer"
-            ]
-        },
         {
             "id": "cordova-plugin-device-orientation.CompassError",
             "file": "plugins/cordova-plugin-device-orientation/www/CompassError.js",
@@ -191,6 +151,22 @@
             ]
         },
         {
+            "id": "cordova-plugin-device-motion.Acceleration",
+            "file": "plugins/cordova-plugin-device-motion/www/Acceleration.js",
+            "pluginId": "cordova-plugin-device-motion",
+            "clobbers": [
+                "Acceleration"
+            ]
+        },
+        {
+            "id": "cordova-plugin-device-motion.accelerometer",
+            "file": "plugins/cordova-plugin-device-motion/www/accelerometer.js",
+            "pluginId": "cordova-plugin-device-motion",
+            "clobbers": [
+                "navigator.accelerometer"
+            ]
+        },
+        {
             "id": "cordova-plugin-geolocation.geolocation",
             "file": "plugins/cordova-plugin-geolocation/www/android/geolocation.js",
             "pluginId": "cordova-plugin-geolocation",
@@ -203,6 +179,14 @@
             "file": "plugins/cordova-plugin-geolocation/www/PositionError.js",
             "pluginId": "cordova-plugin-geolocation",
             "runs": true
+        },
+        {
+            "id": "cordova-plugin-device.device",
+            "file": "plugins/cordova-plugin-device/www/device.js",
+            "pluginId": "cordova-plugin-device",
+            "clobbers": [
+                "device"
+            ]
         },
         {
             "id": "cordova-plugin-splashscreen.SplashScreen",
@@ -254,27 +238,28 @@
             ]
         },
         {
-            "id": "cordova.plugins.diagnostic.Diagnostic",
-            "file": "plugins/cordova.plugins.diagnostic/www/android/diagnostic.js",
-            "pluginId": "cordova.plugins.diagnostic",
+            "id": "cordova-plugin-inappbrowser.inappbrowser",
+            "file": "plugins/cordova-plugin-inappbrowser/www/inappbrowser.js",
+            "pluginId": "cordova-plugin-inappbrowser",
             "clobbers": [
-                "cordova.plugins.diagnostic"
+                "cordova.InAppBrowser.open",
+                "window.open"
             ]
         }
     ],
     "plugin_metadata": {
-        "cordova-plugin-device": "1.1.3",
-        "cordova-plugin-compat": "1.0.0",
-        "cordova-plugin-device-motion": "1.2.2",
-        "cordova-plugin-device-orientation": "1.0.4",
-        "cordova-plugin-geolocation": "2.3.0",
-        "cordova-plugin-console": "1.0.4",
         "cordova-plugin-whitelist": "1.3.0",
+        "cordova-plugin-device-orientation": "1.0.4",
+        "cordova-plugin-device-motion": "1.2.2",
+        "cordova-plugin-compat": "1.0.0",
+        "cordova-plugin-geolocation": "2.3.0",
+        "cordova-plugin-device": "1.1.3",
+        "cordova-plugin-console": "1.0.4",
         "cordova-plugin-splashscreen": "4.0.0",
         "cordova-plugin-statusbar": "2.2.0",
         "ionic-plugin-keyboard": "2.2.1",
         "cordova-plugin-fullscreen": "1.1.0",
         "com.ezartech.ezar.videooverlay": "0.2.4",
-        "cordova.plugins.diagnostic": "3.2.2"
+        "cordova-plugin-inappbrowser": "1.5.1-dev"
     }
 }
