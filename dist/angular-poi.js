@@ -1,23 +1,3 @@
-/*** ************ ***/
-/*** Directive.js ***/
-/*** ************ ***/
-(function () {
-    'use strict';
-
-    angular
-        .module('angular-poi')
-        .directive('angularPointOfInterest', directive);
-
-    function directive() {
-        return {
-            restrict: 'AE',
-            templateUrl: "templates/cameraAR.html",
-            controller: 'CameraController'
-        };
-    }
-
-})();
-
 /*** ************* ***/
 /*** Controller.js ***/
 /*** ************* ***/
@@ -74,43 +54,43 @@
 
         // setup google maps api
         function setupMap() {/*
-            $("#map").height($(window).height() - 60);
-            var mapOptions = {
-                zoom: 13,
-                mapTypeControl: false,
-                streetViewControl: false,
-                navigationControl: true,
-                scrollwheel: false,
-                navigationControlOptions: {style: google.maps.NavigationControlStyle.SMALL},
-                mapTypeId: google.maps.MapTypeId.ROADMAP
-            };
-            map = new google.maps.Map(document.getElementById("map"), mapOptions);*/
+         $("#map").height($(window).height() - 60);
+         var mapOptions = {
+         zoom: 13,
+         mapTypeControl: false,
+         streetViewControl: false,
+         navigationControl: true,
+         scrollwheel: false,
+         navigationControlOptions: {style: google.maps.NavigationControlStyle.SMALL},
+         mapTypeId: google.maps.MapTypeId.ROADMAP
+         };
+         map = new google.maps.Map(document.getElementById("map"), mapOptions);*/
         }
 
         // get data from API and store in array, add to list view and create markers on map, calculate
         $rootScope.loadData = function () {
-         $rootScope.dataLoading = true;
-         markersArray = [];
-         bounds = new google.maps.LatLngBounds();
-         // add blue gps marker
-         var icon = new google.maps.MarkerImage('http://www.google.com/intl/en_us/mapfiles/ms/micons/blue-dot.png', new google.maps.Size(30, 28), new google.maps.Point(0, 0), new google.maps.Point(9, 28));
-         var gpsMarker = new google.maps.Marker({
-         position: new google.maps.LatLng($rootScope.geo.lat, $rootScope.geo.lon),
-         map: map,
-         title: "My Position",
-         icon: icon
-         });
-         bounds.extend(new google.maps.LatLng($rootScope.geo.lat, $rootScope.geo.lon));
-         markersArray.push(gpsMarker);
-         // add all location markers to map and list view and array
-         for (var i = 0; i < pin.length; i++) {
-         $(".listItems").append("<div class='item'>" + pin[i].name + "</div>");
-         addMarker(i);
-         relativePosition(i);
-         }
-         //map.fitBounds(bounds);
-         google.maps.event.trigger(map, "resize");
-         $rootScope.dataLoading = false;
+            $rootScope.dataLoading = true;
+            markersArray = [];
+            bounds = new google.maps.LatLngBounds();
+            // add blue gps marker
+            var icon = new google.maps.MarkerImage('http://www.google.com/intl/en_us/mapfiles/ms/micons/blue-dot.png', new google.maps.Size(30, 28), new google.maps.Point(0, 0), new google.maps.Point(9, 28));
+            var gpsMarker = new google.maps.Marker({
+                position: new google.maps.LatLng($rootScope.geo.lat, $rootScope.geo.lon),
+                map: map,
+                title: "My Position",
+                icon: icon
+            });
+            bounds.extend(new google.maps.LatLng($rootScope.geo.lat, $rootScope.geo.lon));
+            markersArray.push(gpsMarker);
+            // add all location markers to map and list view and array
+            for (var i = 0; i < pin.length; i++) {
+                $(".listItems").append("<div class='item'>" + pin[i].name + "</div>");
+                addMarker(i);
+                relativePosition(i);
+            }
+            //map.fitBounds(bounds);
+            google.maps.event.trigger(map, "resize");
+            $rootScope.dataLoading = false;
         }
 
         // add marker to map and in array
@@ -192,6 +172,28 @@
     }
 
 })();
+
+
+/*** ************ ***/
+/*** Directive.js ***/
+/*** ************ ***/
+(function () {
+    'use strict';
+
+    angular
+        .module('angular-poi')
+        .directive('angularPoi', directive);
+
+    function directive() {
+        return {
+            restrict: 'AE',
+            templateUrl: "templates/cameraAR.html",
+            controller: 'CameraController'
+        };
+    }
+
+})();
+
 
 angular.module("templates", []).run(["$templateCache", function ($templateCache) {
     $templateCache.put("templates/cameraAR.html", "<ion-pane id=\"camera-view\" class=\"no-background\"> <div id=\"arView\" class=\"no-background\" ng-if='arViewVisible==true'> <div class=\"arMessage\">&uarr;<br>Tilt down to see all places</div><br><div class=\"arMessage\">&larr; Move the device around to find spots &rarr;</div><br><div id=\"direction\">{{compass.direction}}</div><br><div id=\"spot\"> <div ng-bind-html='pois'></div></div></div><div id=\"topView\" class=\"no-background\" ng-if='topViewVisible==true'> <div class=\"navbar\"> <div id=\"viewbtn\" class=\"navbtn\">Map</div><div class=\"navtitle\">Nearby</div></div><div class=\"listView\"> <div class=\"listItems\"></div></div><div class=\"mapView\"> <div id=\"map\"></div></div></div></ion-pane>");
