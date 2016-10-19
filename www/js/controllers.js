@@ -5,11 +5,11 @@
         .module('angular-poi')
         .controller("CameraController", cameraController);
 
-    cameraController.$inject = ['$scope', '$sce', '$state', '$rootScope', '$ionicPlatform', '$timeout',
+    cameraController.$inject = ['$scope', '$sce', '$rootScope', '$ionicPlatform',
         'Compass', 'Accellerometer', 'Geolocation', 'Camera'];
 
-    function cameraController($scope, $sce, $state, $rootScope, $ionicPlatform, $timeout,
-                              Compass, Accellerometer, Geolocation, Camera) {
+    function cameraController($scope, $sce, $rootScope, $ionicPlatform, Compass, Accellerometer,
+                              Geolocation, Camera) {
 
         var pin = [
             {"name": "Coccodì", "lat": "39.218365", "lng": "9.113795"},
@@ -33,7 +33,7 @@
 
             Camera.initBackCamera();
 
-            setupMap();
+            //setupMap();
 
             Compass.getCurrentHeading();
             Accellerometer.getCurrentAcceletation();
@@ -51,7 +51,7 @@
 
 
         // setup google maps api
-        function setupMap(){/*
+        function setupMap(){
             $("#map").height($(window).height()-60);
             var mapOptions = {
                 zoom: 13,
@@ -62,27 +62,31 @@
                 navigationControlOptions: {style: google.maps.NavigationControlStyle.SMALL},
                 mapTypeId: google.maps.MapTypeId.ROADMAP
             };
-            map = new google.maps.Map(document.getElementById("map"), mapOptions);*/
+            map = new google.maps.Map(document.getElementById("map"), mapOptions);
         }
 
         // get data from API and store in array, add to list view and create markers on map, calculate
         $rootScope.loadData = function() {
             $rootScope.dataLoading = true;
+
+            /*
             markersArray = [];
             bounds = new google.maps.LatLngBounds();
-            // add blue gps marker
             var icon = new google.maps.MarkerImage('http://www.google.com/intl/en_us/mapfiles/ms/micons/blue-dot.png',new google.maps.Size(30, 28),new google.maps.Point(0,0),new google.maps.Point(9, 28));
             var gpsMarker = new google.maps.Marker({position: new google.maps.LatLng($rootScope.geo.lat, $rootScope.geo.lon), map: map, title: "My Position", icon:icon});
             bounds.extend(new google.maps.LatLng($rootScope.geo.lat, $rootScope.geo.lon));
-            markersArray.push(gpsMarker);
-            // add all location markers to map and list view and array
+            markersArray.push(gpsMarker);*/
+
             for(var i=0; i< pin.length; i++){
                 $(".listItems").append("<div class='item'>"+pin[i].name+"</div>");
-                addMarker(i);
+                //addMarker(i);
                 relativePosition(i);
             }
-            //map.fitBounds(bounds);
+
+            /*
+            map.fitBounds(bounds);
             google.maps.event.trigger(map, "resize");
+            */
             $rootScope.dataLoading = false;
         }
 
