@@ -49,3 +49,8 @@ plugins/cordova-plugin-device-orientation/
 plugins/cordova-plugin-geolocation/
 www/css/ionic.app.css
 www/css/ionic.app.min.css
+/www/
+/scss/
+/resources/
+/platforms/
+/.idea/
