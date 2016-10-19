@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <title>Angular POI</title>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+    <meta name="Copyright" content="&copy; 2013, Intel Corporation. All rights reserved."/>
+    <meta name="Author" content="Stefano Salidu"/>
+
+    <link rel="manifest" href="manifest.json">
+
+    <link href="css/ionic.app.css" rel="stylesheet">
+
+    <!-- ionic/angularjs js -->
+    <script src="lib/ionic/js/ionic.bundle.js"></script>
+
+    <script src="https://maps.googleapis.com/maps/api/js"></script>
+    <script src="lib/jquery/jquery-1.8.2.min.js"></script>
+    <script src="lib/ngCordova/dist/ng-cordova.js"></script>
+    <script src="cordova.js"></script>
+    <script src="lib/angular/angular-sanitize.min.js"></script>
+
+    <script src="js/app.js"></script>
+    <!-- controller -->
+    <script src="js/controllers.js"></script>
+    <!-- services -->
+    <script src="js/camera.js"></script>
+    <script src="js/device.js"></script>
+    <!-- directory -->
+    <script src="js/directive.js"></script>
+
+</head>
+<body ng-app="angular-poi" style="background-color: transparent">
+<!--
+  The nav bar that will be updated as we navigate between views.
+-->
+<ion-nav-bar class="bar-stable">
+    <ion-nav-back-button>
+    </ion-nav-back-button>
+</ion-nav-bar>
+<!--
+  The views will be rendered in the <ion-nav-view> directive below
+  Templates are in the /templates folder (but you could also
+  have templates inline in this html file if you'd like).
+-->
+<ion-nav-view></ion-nav-view>
+</body>
+</html>
