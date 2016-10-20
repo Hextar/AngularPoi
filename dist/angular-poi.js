@@ -172,11 +172,6 @@
 
 })();
 
-angular.module("templates", []).run(["$templateCache", function ($templateCache) {
-    $templateCache.put("templates/cameraAR.html", "<ion-pane id='camera-view' class='no-background'> <div id='arView' class='no-background' ng-if='arViewVisible'> <div class='arMessage'>&uarr;<br>Tilt down to see all places</div><br><div class='arMessage'>&larr; Move the device around to find spots &rarr;</div><br><div id='direction'>{{compass.direction}}</div><br><div id='spot'> <div ng-bind-html='pois'></div></div></div><div id='topView' class='no-background' ng-if='topViewVisible'> <div class='navbar'> <div id='viewbtn' class='navbtn'>Map</div><div class='navtitle'>Nearby</div></div><ul class='list'> <li class='item' ng-repeat='poi in poiList track by $index'>{{poi.name}}</li></ul> <div class='mapView'> <div id='map'></div></div></div></ion-pane>");
-}]);
-
-
 (function () {
     'use strict';
 
@@ -193,6 +188,11 @@ angular.module("templates", []).run(["$templateCache", function ($templateCache)
     }
 
 })();
+
+
+angular.module("templates", []).run(["$templateCache", function ($templateCache) {
+    $templateCache.put("templates/cameraAR.html", "<ion-pane id='camera-view' class='no-background'> <div id='arView' class='no-background' ng-if='arViewVisible'> <div class='arMessage'>&uarr;<br>Tilt down to see all places</div><br><div class='arMessage'>&larr; Move the device around to find spots &rarr;</div><br><div id='direction'>{{compass.direction}}</div><br><div id='spot'> <div ng-bind-html='pois'></div></div></div><div id='topView' class='no-background' ng-if='topViewVisible'> <div class='navbar'> <div class='navtitle'>Nearby</div></div><ul class='list'> <li class='item' ng-repeat='poi in poiList track by $index'>{{poi.name}}</li></ul> <div class='mapView'> <div id='map'></div></div></div></ion-pane>");
+}]);
 
 
 /*** ********* ***/
