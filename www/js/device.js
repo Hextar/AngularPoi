@@ -180,7 +180,7 @@
 
         this.options = {
             timeout: 3000,
-            enableHighAccuracy: false
+            enableHighAccuracy: true
         };
 
         this.watch = undefined;

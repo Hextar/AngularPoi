@@ -419,10 +419,9 @@ angular.module("templates", []).run(["$templateCache", function ($templateCache)
 
     function geolocation($rootScope, $ionicPlatform, $cordovaGeolocation) {
 
-
         this.options = {
             timeout: 3000,
-            enableHighAccuracy: false
+            enableHighAccuracy: true
         };
 
         this.watch = undefined;
