@@ -5,7 +5,7 @@
     'use strict';
 
     angular
-        .module('angular-poi', ['template'])
+        .module('angular-poi', ['templates'])
         .controller("CameraController", cameraController);
 
     cameraController.$inject = ['$scope', '$sce', '$rootScope', '$ionicPlatform',
