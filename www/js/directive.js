@@ -8,6 +8,7 @@
     function directive() {
         return {
             restrict: 'AE',
+            scope: {pois: '=pois'},
             templateUrl: "templates/cameraAR.html",
             controller: 'CameraController'
         };

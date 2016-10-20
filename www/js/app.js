@@ -35,7 +35,7 @@ angular.module('angular-poi', ['ionic', 'ngCordova', 'ngSanitize'])
             .state('home', {
                 url: '/home',
                 templateUrl: 'templates/home.html',
-                controller: "CameraController"
+                controller: "Home"
             })
 
         // if none of the above states are matched, use this as the fallback

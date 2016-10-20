@@ -1,8 +1,11 @@
+/*** ********* ***/
+/*** Controller.js ***/
+/*** ********* ***/
 (function () {
     'use strict';
 
     angular
-        .module('angular-poi', ['templates'])
+        .module('angular-poi', ['tempate'])
         .controller("CameraController", cameraController);
 
     cameraController.$inject = ['$scope', '$sce', '$rootScope', '$ionicPlatform',
@@ -11,13 +14,7 @@
     function cameraController($scope, $sce, $rootScope, $ionicPlatform, Compass, Accellerometer,
                               Geolocation, Camera) {
 
-        var pin = [
-            {"name": "Coccodì", "lat": "39.218365", "lng": "9.113795"},
-            {"name": "Bombas", "lat": "39.217118", "lng": "9.115308"},
-            {"name": "La Balena", "lat": "39.231314", "lng": "9.094558"},
-            {"name": "Pizzeria Levante", "lat": "39.228395", "lng": "9.120056"},
-            {"name": "Pizzeria Nicolino", "lat": "39.234539", "lng": "9.100404"}
-        ];
+        var pois = $scope.pois;
 
         var DISTANCE_THRESHOLD_1 = 5;
         var DISTANCE_THRESHOLD_2 = 10;
@@ -50,6 +47,7 @@
 
         });
 
+
         // setup google maps api
         function setupMap(){
             $("#map").height($(window).height()-60);
@@ -78,9 +76,9 @@
              markersArray.push(gpsMarker);*/
 
             $scope.poiList = [];
-            for(var i=0; i< pin.length; i++){
+            for(var i=0; i< pois.length; i++){
                 //addMarker(i);
-                $scope.poiList.push(pin[i]);
+                $scope.poiList.push(pois[i]);
                 relativePosition(i);
             }
 
@@ -94,68 +92,67 @@
         // add marker to map and in array
         function addMarker(i) {
             var marker = new google.maps.Marker({
-                position: new google.maps.LatLng(pin[i].lat, pin[i].lng),
+                position: new google.maps.LatLng(pois[i].lat, pois[i].lng),
                 map: map,
-                title: pin[i].name
+                title: pois[i].name
             });
-            bounds.extend(new google.maps.LatLng(pin[i].lat, pin[i].lng));
+            bounds.extend(new google.maps.LatLng(pois[i].lat, pois[i].lng));
             markersArray.push(marker);
         }
 
         // calulate distance and bearing value for each of the points wrt gps lat/lng
         function relativePosition(i) {
             var EARTH_RADISU_KM = 6371.0072;
-            var pinLat = pin[i].lat;
-            var pinLng = pin[i].lng;
-            var dLat = ($rootScope.geo.lat - pinLat) * Math.PI / 180;
-            var dLon = ($rootScope.geo.lon - pinLng) * Math.PI / 180;
-            var lat1 = pinLat * Math.PI / 180;
+            var poiLat = pois[i].lat;
+            var poiLng = pois[i].lng;
+            var dLat = ($rootScope.geo.lat - poiLat) * Math.PI / 180;
+            var dLon = ($rootScope.geo.lon - poiLng) * Math.PI / 180;
+            var lat1 = poiLat * Math.PI / 180;
             var lat2 = $rootScope.geo.lat * Math.PI / 180;
             var y = Math.sin(dLon) * Math.cos(lat2);
             var x = Math.cos(lat1) * Math.sin(lat2) - Math.sin(lat1) * Math.cos(lat2) * Math.cos(dLon);
             bearing = Math.atan2(y, x) * 180 / Math.PI;
             bearing = bearing + 180;
-            pin[i]['bearing'] = bearing;
+            pois[i]['bearing'] = bearing;
             var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) + Math.sin(dLon / 2) * Math.sin(dLon / 2) * Math.cos(lat1) * Math.cos(lat2);
             var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
             distance = EARTH_RADISU_KM * c;
-            pin[i]['distance'] = distance;
+            pois[i]['distance'] = distance;
         }
 
         // calculate direction of points and display
         $rootScope.calculateDirection = function(degree){
             var detected = 0;
             var poiList = [];
-            $scope.pois = poiList;
-            for(var i=0;i<pin.length;i++){
-                if(Math.abs(pin[i].bearing - degree) <= 20){
+            $scope.computedPois = poiList;
+            for(var i=0;i<pois.length;i++){
+                if(Math.abs(pois[i].bearing - degree) <= 20){
                     var away, fontSize, fontColor;
                     // vary font size based on distance from gps location
-                    if(pin[i].distance > DISTANCE_THRESHOLD_3){
-                        away = Math.round(pin[i].distance);
+                    if(pois[i].distance > DISTANCE_THRESHOLD_3){
+                        away = Math.round(pois[i].distance);
                         fontSize = "16";
                         fontColor = "#ccc";
-                    } else if(pin[i].distance > DISTANCE_THRESHOLD_2){
-                        away = Math.round(pin[i].distance);
+                    } else if(pois[i].distance > DISTANCE_THRESHOLD_2){
+                        away = Math.round(pois[i].distance);
                         fontSize = "24";
                         fontColor = "#ddd";
                     } else {
-                        away = pin[i].distance.toFixed(2);
+                        away = pois[i].distance.toFixed(2);
                         fontSize = "30";
                         fontColor = "#eee";
                     }
-                    poiList.push('<div class="name" data-id="'+i+'" style="margin-left:'+(((pin[i].bearing - degree) * 5)+50)+'px;width:'+($(window).width()-100)+'px;font-size:'+fontSize+'px;color:'+fontColor+'">'+pin[i].name+'<div class="distance">'+ away +' kilometers away</div></div>');
+                    poiList.push('<div class="name" data-id="'+i+'" style="margin-left:'+(((pois[i].bearing - degree) * 5)+50)+'px;width:'+($(window).width()-100)+'px;font-size:'+fontSize+'px;color:'+fontColor+'">'+pois[i].name+'<div class="distance">'+ away +' kilometers away</div></div>');
                     //console.debug(poiList);
-                    $scope.pois = $sce.trustAsHtml(poiList.toString());
+                    $scope.computedPois = $sce.trustAsHtml(poiList.toString());
                     detected = 1;
                 } else {
                     if(!detected){
                         poiList = [];
-                        $scope.pois = $sce.trustAsHtml();
+                        $scope.computedPois = $sce.trustAsHtml();
                     }
                 }
             }
-
         }
 
         $rootScope.showTop = function () {
@@ -172,6 +169,9 @@
 
 })();
 
+/*** ********* ***/
+/*** Directive.js ***/
+/*** ********* ***/
 (function () {
     'use strict';
 
@@ -182,6 +182,7 @@
     function directive() {
         return {
             restrict: 'AE',
+            scope: {pois: '=pois'},
             templateUrl: "templates/cameraAR.html",
             controller: 'CameraController'
         };
@@ -190,8 +191,11 @@
 })();
 
 
+/*** ********* ***/
+/*** Template.js ***/
+/*** ********* ***/
 angular.module("templates", []).run(["$templateCache", function ($templateCache) {
-    $templateCache.put("templates/cameraAR.html", "<ion-pane id='camera-view' class='no-background'> <div id='arView' class='no-background' ng-if='arViewVisible'> <div class='arMessage'>&uarr;<br>Tilt down to see all places</div><br><div class='arMessage'>&larr; Move the device around to find spots &rarr;</div><br><div id='direction'>{{compass.direction}}</div><br><div id='spot'> <div ng-bind-html='pois'></div></div></div><div id='topView' class='no-background' ng-if='topViewVisible'> <div class='navbar'> <div class='navtitle'>Nearby</div></div><ul class='list'> <li class='item' ng-repeat='poi in poiList track by $index'>{{poi.name}}</li></ul> <div class='mapView'> <div id='map'></div></div></div></ion-pane>");
+    $templateCache.put("templates/cameraAR.html", "<ion-pane id='camera-view' class='no-background'> <div id='arView' class='no-background' ng-if='arViewVisible'> <div class='arMessage'>&uarr;<br>Tilt down to see all places</div><br><div class='arMessage'>&larr; Move the device around to find spots &rarr;</div><br><div id='direction'>{{compass.direction}}</div><br><div id='spot'> <div ng-bind-html='computedPois'></div></div></div><div id='topView' class='no-background' ng-if='topViewVisible'> <div class='navbar'> <div class='navtitle'>Nearby</div></div><ul class='list'> <li class='item' ng-repeat='poi in poiList track by $index'>{{poi.name}}</li></ul> <div class='mapView'> <div id='map'></div></div></div></ion-pane>");
 }]);
 
 
