@@ -156,7 +156,6 @@
                     }
                 }
             }
-
         }
 
         $rootScope.showTop = function () {
