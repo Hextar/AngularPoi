@@ -179,7 +179,7 @@
 
 
         this.options = {
-            timeout: 3000,
+            timeout: 10000,
             enableHighAccuracy: true
         };
 
@@ -216,7 +216,7 @@
             if (!angular.isDefined($rootScope.geo)) {
                 this.init();
             }
-            position.watch = $cordovaGeolocation.watchPosition(watchOptions)
+            position.watch = $cordovaGeolocation.watchPosition(watchOptions, showGPSError)
                 .then(
                     null,
                     function (err) {
@@ -232,6 +232,28 @@
                         //console.info("Geolocation: " + $rootScope.geo.lat + "-" + $rootScope.geo.lon);
                     });
         };
+
+        function showGPSError (error) {
+            var content;
+            switch (error.code) {
+                case error.PERMISSION_DENIED:
+                    content = "User denied the request for Geolocation."
+                    break;
+                case error.POSITION_UNAVAILABLE:
+                    content = "Location information is unavailable."
+                    break;
+                case error.TIMEOUT:
+                    content = "The request to get user location timed out."
+                    break;
+                case error.UNKNOWN_ERROR:
+                    content = "An unknown error occurred."
+                    break;
+            }
+            $ionicPopup.confirm({
+                title: "GPS Error",
+                cssClass: "background-color: #4BAF33",
+                content: content
+            });
 
         this.clearWatch = function () {
             if (angular.isDefined(this.watch)) {
