@@ -9825,7 +9825,7 @@ body {
 .no-background {
   background-color: transparent !important; }
 
-.navbar {
+#camera-view .navbar {
   background-color: #222;
   height: 40px;
   padding: 10px;
@@ -9835,11 +9835,11 @@ body {
   font-weight: bold;
   line-height: 40px; }
 
-.navtitle {
+#camera-view .navtitle {
   text-align: center;
   margin: auto; }
 
-.navbtn {
+#camera-view .navbtn {
   background-color: #333;
   padding: 5px 10px;
   height: 30px;
@@ -9850,13 +9850,13 @@ body {
   border-radius: 4px;
   border: 1px solid #666; }
 
-#actionbtn {
+#camera-view #actionbtn {
   float: right; }
 
-#viewbtn {
+#camera-view #viewbtn {
   float: left; }
 
-.query {
+#camera-view .query {
   padding: 10px;
   background-color: #aaa;
   border-bottom: 1px solid #fff;
@@ -9864,7 +9864,7 @@ body {
   font-weight: bold;
   color: #222; }
 
-.item {
+#camera-view .item {
   padding: 20px 10px;
   background-color: #eee;
   border-bottom: 1px solid #fff;
@@ -9872,12 +9872,12 @@ body {
   color: #333;
   text-shadow: 0 1px #fff; }
 
-.searchbox {
+#camera-view .searchbox {
   padding: 5px;
   background-color: #eee;
   border-bottom: 1px solid #fff; }
 
-#search {
+#camera-view #search {
   box-sizing: border-box;
   width: 100%;
   height: 40px;
@@ -9885,36 +9885,36 @@ body {
   border-radius: 20px;
   border: 1px solid #bbb; }
 
-.mapView {
+#camera-view .mapView {
   display: none; }
 
-#map {
+#camera-view #map {
   height: 200px; }
 
-#arView {
+#camera-view #arView {
   padding: 30px 0;
   height: 70px;
   text-align: center; }
 
-.arMessage {
+#camera-view .arMessage {
   color: #ddd;
   font-size: 14px; }
 
-#spot {
+#camera-view #spot {
   text-align: center; }
 
-.name,
-.distance {
+#camera-view .name,
+#camera-view .distance {
   text-shadow: 0 1px #666; }
 
-.name {
+#camera-view .name {
   padding: 15px;
   font-weight: bold;
   background-color: rgba(204, 34, 34, 0.5);
   border-radius: 40px;
   margin-bottom: 10px; }
 
-#direction {
+#camera-view #direction {
   color: #fff;
   font-size: 20px;
   padding: 15px;
@@ -9926,30 +9926,30 @@ body {
   width: 70px;
   line-height: 40px; }
 
-.distance {
+#camera-view .distance {
   font-size: 14px;
   font-weight: normal; }
 
-#debug {
+#camera-view #debug {
   border: 1px solid #999;
   display: none; }
 
-.heading {
+#camera-view .heading {
   background-color: #999;
   color: #eee;
   padding: 5px; }
 
-#compass,
-#accelerometer,
-#geolocation {
+#camera-view #compass,
+#camera-view #accelerometer,
+#camera-view #geolocation {
   padding: 5px; }
 
-.snap {
+#camera-view .snap {
   position: absolute;
   right: 31px;
   bottom: 26px; }
 
-.attributing {
+#camera-view .attributing {
   color: #ffd500;
   position: absolute;
   right: 10px;
