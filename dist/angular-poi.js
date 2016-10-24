@@ -415,9 +415,9 @@ angular.module("templates", []).run(["$templateCache", function ($templateCache)
         .module('angular-poi')
         .factory('Geolocation', geolocation);
 
-    geolocation.$inject = ['$rootScope', '$ionicPlatform', '$ionicPopup', '$cordovaGeolocation'];
+    geolocation.$inject = ['$rootScope', '$filter', '$ionicPlatform', '$ionicPopup', '$cordovaGeolocation'];
 
-    function geolocation($rootScope, $ionicPlatform, $ionicPopup, $cordovaGeolocation) {
+    function geolocation($rootScope, $filter, $ionicPlatform, $ionicPopup, $cordovaGeolocation) {
 
         this.options = {
             timeout: 2 * 1000,
