@@ -254,9 +254,9 @@
 
        function gpsAlert() {
             var confirmPopup = $ionicPopup.confirm({
-                title: "ar.popup.title",
-                template: "ar.popup.text",
-                okText: "ar.popup.button"
+                title: $filter("translate")("ar.popup.title"),
+                template: $filter("translate")("ar.popup.text"),
+                okText: $filter("translate")("ar.popup.button")
             });
             confirmPopup.then(function (res) {
                 if (res) {
