@@ -415,12 +415,13 @@ angular.module("templates", []).run(["$templateCache", function ($templateCache)
         .module('angular-poi')
         .factory('Geolocation', geolocation);
 
-    geolocation.$inject = ['$rootScope', '$ionicPlatform', '$cordovaGeolocation'];
+    geolocation.$inject = ['$rootScope', '$ionicPlatform', '$ionicPopup', '$cordovaGeolocation'];
 
-    function geolocation($rootScope, $ionicPlatform, $cordovaGeolocation) {
+    function geolocation($rootScope, $ionicPlatform, $ionicPopup, $cordovaGeolocation) {
 
         this.options = {
-            timeout: 3000,
+            timeout: 2 * 1000,
+            maximumAge: 0,
             enableHighAccuracy: true
         };
 
@@ -438,40 +439,43 @@ angular.module("templates", []).run(["$templateCache", function ($templateCache)
                 this.init();
             }
             var posOptions = this.option;
-
-            $cordovaGeolocation.getCurrentPosition(posOptions)
-                .then(function (position) {
-                    $rootScope.geo.lat = position.coords.latitude;
-                    $rootScope.geo.lon = position.coords.longitude;
-                    if (!$rootScope.dataLoading) $rootScope.loadData();
-                }, function (err) {
-                    $rootScope.errorList += err + " - ";
-                    //cordova.plugins.diagnostic.switchToLocationSettings();
-                });
+            $ionicPlatform.ready(function () {
+                $cordovaGeolocation.getCurrentPosition(posOptions)
+                    .then(function (position) {
+                        $rootScope.geo.lat = position.coords.latitude;
+                        $rootScope.geo.lon = position.coords.longitude;
+                        if (!$rootScope.dataLoading) $rootScope.loadData();
+                    }, function (err) {
+                        $rootScope.errorList += err + " - ";
+                    });
+            });
         };
 
         this.watchPosition = function () {
-
             var watchOptions = this.options;
             var position = this;
             if (!angular.isDefined($rootScope.geo)) {
                 this.init();
             }
-            position.watch = $cordovaGeolocation.watchPosition(watchOptions)
-                .then(
-                    null,
-                    function (err) {
-                        $rootScope.errorList += err + " - ";
-                        console.info(err);
-                    },
-                    function (geo) {
-                        $rootScope.geo.lat = geo.coords.latitude;
-                        $rootScope.geo.lon = geo.coords.longitude;
-                        if (!$rootScope.dataLoading) {
-                            $rootScope.loadData();
-                        }
-                        console.info("Geolocation: " + $rootScope.geo.lat + "-" + $rootScope.geo.lon);
-                    });
+            $ionicPlatform.ready(function () {
+                position.watch = $cordovaGeolocation.watchPosition(watchOptions)
+                    .then(
+                        null,
+                        function (err) {
+                            $rootScope.errorList += err + " - ";
+                            console.info(err);
+                            gpsAlert();
+                        },
+                        function (geo) {
+                            $rootScope.geo.lat = geo.coords.latitude;
+                            $rootScope.geo.lon = geo.coords.longitude;
+                            if (!$rootScope.dataLoading) {
+                                $rootScope.loadData();
+                            }
+                            //console.info("Geolocation: " + $rootScope.geo.lat + "-" + $rootScope.geo.lon);
+                        });
+            });
+
         };
 
         this.clearWatch = function () {
@@ -481,6 +485,19 @@ angular.module("templates", []).run(["$templateCache", function ($templateCache)
         };
 
         return this;
+
+        function gpsAlert() {
+            var confirmPopup = $ionicPopup.confirm({
+                title: "ar.popup.title",
+                template: "ar.popup.text",
+                okText: "ar.popup.button"
+            });
+            confirmPopup.then(function (res) {
+                if (res) {
+                    cordova.plugins.diagnostic.switchToLocationSettings();
+                }
+            });
+        }
 
     }
 

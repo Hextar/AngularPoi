@@ -24,6 +24,8 @@
         $scope.viewViewVisible = false;
         $scope.poiList = [];
 
+
+
         $ionicPlatform.ready(function () {
 
             Camera.initBackCamera();
@@ -38,7 +40,7 @@
             Accellerometer.watchAcceleration();
             Geolocation.watchPosition();
 
-            if($rootScope.errorList != undefined) {
+            if ($rootScope.errorList != undefined) {
                 console.error($rootScope.errorList);
             }
 
@@ -46,8 +48,8 @@
 
 
         // setup google maps api
-        function setupMap(){
-            $("#map").height($(window).height()-60);
+        function setupMap() {
+            $("#map").height($(window).height() - 60);
             var mapOptions = {
                 zoom: 13,
                 mapTypeControl: false,
@@ -61,28 +63,28 @@
         }
 
         // get data from API and store in array, add to list view and create markers on map, calculate
-        $rootScope.loadData = function() {
+        $rootScope.loadData = function () {
             $rootScope.dataLoading = true;
 
             /*
-            markersArray = [];
-            bounds = new google.maps.LatLngBounds();
-            var icon = new google.maps.MarkerImage('http://www.google.com/intl/en_us/mapfiles/ms/micons/blue-dot.png',new google.maps.Size(30, 28),new google.maps.Point(0,0),new google.maps.Point(9, 28));
-            var gpsMarker = new google.maps.Marker({position: new google.maps.LatLng($rootScope.geo.lat, $rootScope.geo.lon), map: map, title: "My Position", icon:icon});
-            bounds.extend(new google.maps.LatLng($rootScope.geo.lat, $rootScope.geo.lon));
-            markersArray.push(gpsMarker);*/
+             markersArray = [];
+             bounds = new google.maps.LatLngBounds();
+             var icon = new google.maps.MarkerImage('http://www.google.com/intl/en_us/mapfiles/ms/micons/blue-dot.png',new google.maps.Size(30, 28),new google.maps.Point(0,0),new google.maps.Point(9, 28));
+             var gpsMarker = new google.maps.Marker({position: new google.maps.LatLng($rootScope.geo.lat, $rootScope.geo.lon), map: map, title: "My Position", icon:icon});
+             bounds.extend(new google.maps.LatLng($rootScope.geo.lat, $rootScope.geo.lon));
+             markersArray.push(gpsMarker);*/
 
             $scope.poiList = [];
-            for(var i=0; i< pois.length; i++){
+            for (var i = 0; i < pois.length; i++) {
                 //addMarker(i);
                 $scope.poiList.push(pois[i]);
                 relativePosition(i);
             }
 
             /*
-            map.fitBounds(bounds);
-            google.maps.event.trigger(map, "resize");
-            */
+             map.fitBounds(bounds);
+             google.maps.event.trigger(map, "resize");
+             */
             $rootScope.dataLoading = false;
         }
 
@@ -118,19 +120,19 @@
         }
 
         // calculate direction of points and display
-        $rootScope.calculateDirection = function(degree){
+        $rootScope.calculateDirection = function (degree) {
             var detected = 0;
             var poiList = [];
             $scope.computedPois = poiList;
-            for(var i=0;i<pois.length;i++){
-                if(Math.abs(pois[i].bearing - degree) <= 20){
+            for (var i = 0; i < pois.length; i++) {
+                if (Math.abs(pois[i].bearing - degree) <= 20) {
                     var away, fontSize, fontColor;
                     // vary font size based on distance from gps location
-                    if(pois[i].distance > DISTANCE_THRESHOLD_3){
+                    if (pois[i].distance > DISTANCE_THRESHOLD_3) {
                         away = Math.round(pois[i].distance);
                         fontSize = "16";
                         fontColor = "#ccc";
-                    } else if(pois[i].distance > DISTANCE_THRESHOLD_2){
+                    } else if (pois[i].distance > DISTANCE_THRESHOLD_2) {
                         away = Math.round(pois[i].distance);
                         fontSize = "24";
                         fontColor = "#ddd";
@@ -139,12 +141,12 @@
                         fontSize = "30";
                         fontColor = "#eee";
                     }
-                    poiList.push('<div class="name" data-id="'+i+'" style="margin-left:'+(((pois[i].bearing - degree) * 5)+50)+'px;width:'+($(window).width()-100)+'px;font-size:'+fontSize+'px;color:'+fontColor+'">'+pois[i].name+'<div class="distance">'+ away +' kilometers away</div></div>');
+                    poiList.push('<div class="name" data-id="' + i + '" style="margin-left:' + (((pois[i].bearing - degree) * 5) + 50) + 'px;width:' + ($(window).width() - 100) + 'px;font-size:' + fontSize + 'px;color:' + fontColor + '">' + pois[i].name + '<div class="distance">' + away + ' kilometers away</div></div>');
                     //console.debug(poiList);
                     $scope.computedPois = $sce.trustAsHtml(poiList.toString());
                     detected = 1;
                 } else {
-                    if(!detected){
+                    if (!detected) {
                         poiList = [];
                         $scope.computedPois = $sce.trustAsHtml();
                     }

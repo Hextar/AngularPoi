@@ -34,18 +34,20 @@
             if (!angular.isDefined($rootScope.compass)) {
                 this.init();
             }
-            $cordovaDeviceOrientation.getCurrentHeading()
-                .then(function (result) {
-                    $rootScope.compass.direction = directions[Math.abs(parseInt((result.magneticHeading) / 45) + 1)];
-                    $rootScope.compass.magneticHeading = result.magneticHeading;
-                    $rootScope.compass.trueHeading = result.trueHeading;
-                    $rootScope.compass.accuracy = result.headingAccuracy;
-                    $rootScope.compass.timeStamp = result.timestamp;
+            $ionicPlatform.ready(function () {
+                $cordovaDeviceOrientation.getCurrentHeading()
+                    .then(function (result) {
+                        $rootScope.compass.direction = directions[Math.abs(parseInt((result.magneticHeading) / 45) + 1)];
+                        $rootScope.compass.magneticHeading = result.magneticHeading;
+                        $rootScope.compass.trueHeading = result.trueHeading;
+                        $rootScope.compass.accuracy = result.headingAccuracy;
+                        $rootScope.compass.timeStamp = result.timestamp;
 
-                    if ($rootScope.dataLoading != "loading") $rootScope.calculateDirection(result.magneticHeading);
-                }, function (err) {
-                    $rootScope.errorList += err + " - ";
-                });
+                        if ($rootScope.dataLoading != "loading") $rootScope.calculateDirection(result.magneticHeading);
+                    }, function (err) {
+                        $rootScope.errorList += err + " - ";
+                    });
+            });
         };
 
         this.watchHeading = function () {
@@ -54,25 +56,27 @@
             if (!angular.isDefined($rootScope.compass)) {
                 this.init();
             }
-            compass.watch = $cordovaDeviceOrientation.watchHeading(option)
-                .then(
-                    null,
-                    function (err) {
-                        $rootScope.errorList += err + " - ";
-                    },
-                    function (result) {   // updates constantly (depending on frequency value)
-                        $rootScope.compass.direction = directions[Math.abs(parseInt((result.magneticHeading) / 45) + 1)];
-                        $rootScope.compass.magneticHeading = result.magneticHeading;
-                        $rootScope.compass.trueHeading = result.trueHeading;
-                        $rootScope.compass.accuracy = result.headingAccuracy;
-                        $rootScope.compass.timeStamp = result.timestamp;
+            $ionicPlatform.ready(function () {
+                compass.watch = $cordovaDeviceOrientation.watchHeading(option)
+                    .then(
+                        null,
+                        function (err) {
+                            $rootScope.errorList += err + " - ";
+                        },
+                        function (result) {   // updates constantly (depending on frequency value)
+                            $rootScope.compass.direction = directions[Math.abs(parseInt((result.magneticHeading) / 45) + 1)];
+                            $rootScope.compass.magneticHeading = result.magneticHeading;
+                            $rootScope.compass.trueHeading = result.trueHeading;
+                            $rootScope.compass.accuracy = result.headingAccuracy;
+                            $rootScope.compass.timeStamp = result.timestamp;
 
-                        if ($rootScope.dataLoading != "loading") {
-                            $rootScope.calculateDirection(result.magneticHeading);
-                        }
+                            if ($rootScope.dataLoading != "loading") {
+                                $rootScope.calculateDirection(result.magneticHeading);
+                            }
 
-                        //console.info("Compass: " + $rootScope.compass.direction);
-                    });
+                            //console.info("Compass: " + $rootScope.compass.direction);
+                        });
+            });
         };
 
         this.clearWatch = function () {
@@ -96,9 +100,9 @@
         .module('angular-poi')
         .factory('Accellerometer', accellerometer);
 
-    accellerometer.$inject = ['$rootScope', '$cordovaDeviceMotion'];
+    accellerometer.$inject = ['$rootScope', '$ionicPlatform', '$cordovaDeviceMotion'];
 
-    function accellerometer($rootScope, $cordovaDeviceMotion) {
+    function accellerometer($rootScope, $ionicPlatform, $cordovaDeviceMotion) {
 
         this.options = {
             frequency: 100
@@ -118,16 +122,18 @@
             if (!angular.isDefined($rootScope.motion)) {
                 this.init();
             }
-            $cordovaDeviceMotion.getCurrentAcceleration()
-                .then(function (result) {
-                    $rootScope.motion.x = result.x;
-                    $rootScope.motion.y = result.y;
-                    $rootScope.motion.z = result.z;
-                    if (result.y > 7) $rootScope.showTop();
-                    else $rootScope.hideTop();
-                }, function (err) {
-                    $rootScope.errorList += err + " - ";
-                });
+            $ionicPlatform.ready(function () {
+                $cordovaDeviceMotion.getCurrentAcceleration()
+                    .then(function (result) {
+                        $rootScope.motion.x = result.x;
+                        $rootScope.motion.y = result.y;
+                        $rootScope.motion.z = result.z;
+                        if (result.y > 7) $rootScope.showTop();
+                        else $rootScope.hideTop();
+                    }, function (err) {
+                        $rootScope.errorList += err + " - ";
+                    });
+            });
         };
 
         this.watchAcceleration = function () {
@@ -136,20 +142,22 @@
             if (!angular.isDefined($rootScope.motion)) {
                 this.init();
             }
-            motion.watch = $cordovaDeviceMotion.watchAcceleration(option)
-                .then(
-                    null,
-                    function (err) {
-                        $rootScope.errorList += err + " - ";
-                    },
-                    function (result) {   // updates constantly (depending on frequency value)
-                        $rootScope.motion.x = result.x;
-                        $rootScope.motion.y = result.y;
-                        $rootScope.motion.z = result.z;
-                        if (result.y > 7) $rootScope.showTop();
-                        else $rootScope.hideTop();
-                        //console.info("Accelleration: " + result.x + "-" + result.y + "-" + result.z);
-                    });
+            $ionicPlatform.ready(function () {
+                motion.watch = $cordovaDeviceMotion.watchAcceleration(option)
+                    .then(
+                        null,
+                        function (err) {
+                            $rootScope.errorList += err + " - ";
+                        },
+                        function (result) {   // updates constantly (depending on frequency value)
+                            $rootScope.motion.x = result.x;
+                            $rootScope.motion.y = result.y;
+                            $rootScope.motion.z = result.z;
+                            if (result.y > 7) $rootScope.showTop();
+                            else $rootScope.hideTop();
+                            //console.info("Accelleration: " + result.x + "-" + result.y + "-" + result.z);
+                        });
+            });
         };
 
         this.clearWatch = function () {
@@ -173,13 +181,13 @@
         .module('angular-poi')
         .factory('Geolocation', geolocation);
 
-    geolocation.$inject = ['$rootScope', '$ionicPlatform', '$cordovaGeolocation'];
+    geolocation.$inject = ['$rootScope', '$ionicPlatform', '$ionicPopup', '$cordovaGeolocation'];
 
-    function geolocation($rootScope, $ionicPlatform, $cordovaGeolocation) {
-
+    function geolocation($rootScope, $ionicPlatform, $ionicPopup, $cordovaGeolocation) {
 
         this.options = {
-            timeout: 10000,
+            timeout: 2 * 1000,
+            maximumAge: 0,
             enableHighAccuracy: true
         };
 
@@ -197,63 +205,44 @@
                 this.init();
             }
             var posOptions = this.option;
-
-            $cordovaGeolocation.getCurrentPosition(posOptions)
-                .then(function (position) {
-                    $rootScope.geo.lat = position.coords.latitude;
-                    $rootScope.geo.lon = position.coords.longitude;
-                    if (!$rootScope.dataLoading) $rootScope.loadData();
-                }, function (err) {
-                    $rootScope.errorList += err + " - ";
-                    //cordova.plugins.diagnostic.switchToLocationSettings();
-                });
+            $ionicPlatform.ready(function () {
+                $cordovaGeolocation.getCurrentPosition(posOptions)
+                    .then(function (position) {
+                        $rootScope.geo.lat = position.coords.latitude;
+                        $rootScope.geo.lon = position.coords.longitude;
+                        if (!$rootScope.dataLoading) $rootScope.loadData();
+                    }, function (err) {
+                        $rootScope.errorList += err + " - ";
+                    });
+            });
         };
 
         this.watchPosition = function () {
-
             var watchOptions = this.options;
             var position = this;
             if (!angular.isDefined($rootScope.geo)) {
                 this.init();
             }
-            position.watch = $cordovaGeolocation.watchPosition(watchOptions, showGPSError)
-                .then(
-                    null,
-                    function (err) {
-                        $rootScope.errorList += err + " - ";
-                        console.info(err);
-                    },
-                    function (geo) {
-                        $rootScope.geo.lat = geo.coords.latitude;
-                        $rootScope.geo.lon = geo.coords.longitude;
-                        if (!$rootScope.dataLoading) {
-                            $rootScope.loadData();
-                        }
-                        //console.info("Geolocation: " + $rootScope.geo.lat + "-" + $rootScope.geo.lon);
-                    });
-        };
-
-        function showGPSError (error) {
-            var content;
-            switch (error.code) {
-                case error.PERMISSION_DENIED:
-                    content = "User denied the request for Geolocation."
-                    break;
-                case error.POSITION_UNAVAILABLE:
-                    content = "Location information is unavailable."
-                    break;
-                case error.TIMEOUT:
-                    content = "The request to get user location timed out."
-                    break;
-                case error.UNKNOWN_ERROR:
-                    content = "An unknown error occurred."
-                    break;
-            }
-            $ionicPopup.confirm({
-                title: "GPS Error",
-                cssClass: "background-color: #4BAF33",
-                content: content
+            $ionicPlatform.ready(function () {
+                position.watch = $cordovaGeolocation.watchPosition(watchOptions)
+                    .then(
+                        null,
+                        function (err) {
+                            $rootScope.errorList += err + " - ";
+                            console.info(err);
+                            gpsAlert();
+                        },
+                        function (geo) {
+                            $rootScope.geo.lat = geo.coords.latitude;
+                            $rootScope.geo.lon = geo.coords.longitude;
+                            if (!$rootScope.dataLoading) {
+                                $rootScope.loadData();
+                            }
+                            //console.info("Geolocation: " + $rootScope.geo.lat + "-" + $rootScope.geo.lon);
+                        });
             });
+
+        };
 
         this.clearWatch = function () {
             if (angular.isDefined(this.watch)) {
@@ -262,6 +251,19 @@
         };
 
         return this;
+
+       function gpsAlert() {
+            var confirmPopup = $ionicPopup.confirm({
+                title: "ar.popup.title",
+                template: "ar.popup.text",
+                okText: "ar.popup.button"
+            });
+            confirmPopup.then(function (res) {
+                if (res) {
+                    cordova.plugins.diagnostic.switchToLocationSettings();
+                }
+            });
+        }
 
     }
 
