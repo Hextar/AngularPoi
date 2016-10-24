@@ -24,28 +24,39 @@
         $scope.viewViewVisible = false;
         $scope.poiList = [];
 
+        function drawAR() {
+            $ionicPlatform.ready(function () {
+                console.debug("STARTED DOING SHIET");
 
+                Camera.initBackCamera();
 
-        $ionicPlatform.ready(function () {
+                //setupMap();
 
-            Camera.initBackCamera();
+                Compass.getCurrentHeading();
+                Accellerometer.getCurrentAcceletation();
+                Geolocation.getCurrentPosition();
 
-            //setupMap();
+                Compass.watchHeading();
+                Accellerometer.watchAcceleration();
+                Geolocation.watchPosition();
 
-            Compass.getCurrentHeading();
-            Accellerometer.getCurrentAcceletation();
-            Geolocation.getCurrentPosition();
+                if ($rootScope.errorList != undefined) {
+                    console.error($rootScope.errorList);
+                }
+            });
 
-            Compass.watchHeading();
-            Accellerometer.watchAcceleration();
-            Geolocation.watchPosition();
+        }
 
-            if ($rootScope.errorList != undefined) {
-                console.error($rootScope.errorList);
-            }
-
-        });
-
+        (function () {
+            $scope.$watch('pois', function (newVal) {
+                if ($scope.pois !== undefined) {
+                    console.debug("POIS RECEIVED");
+                    pois = newVal;
+                    console.debug(newVal);
+                    drawAR();
+                }
+            }, true);
+        }());
 
         // setup google maps api
         function setupMap() {
