@@ -9931,7 +9931,8 @@ body {
   font-weight: normal; }
 
 #camera-view #debug {
-  border: 1px solid #999; }
+  border: 1px solid #999;
+  display: none; }
 
 #camera-view .heading {
   background-color: #999;
