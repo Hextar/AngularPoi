@@ -26,7 +26,6 @@
 
         function drawAR() {
             $ionicPlatform.ready(function () {
-                console.debug("STARTED DOING SHIET");
 
                 Camera.initBackCamera();
 
@@ -50,7 +49,6 @@
         (function () {
             $scope.$watch('pois', function (newVal) {
                 if ($scope.pois !== undefined) {
-                    console.debug("POIS RECEIVED");
                     pois = newVal;
                     console.debug(newVal);
                     drawAR();
