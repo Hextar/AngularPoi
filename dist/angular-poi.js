@@ -61,7 +61,7 @@
                 }
             }, true);
         }());
-        
+
         // setup google maps api
         function setupMap(){
             $("#map").height($(window).height()-60);
@@ -433,6 +433,8 @@ angular.module("templates", []).run(["$templateCache", function ($templateCache)
 
     function geolocation($rootScope, $filter, $ionicPlatform, $ionicPopup, $cordovaGeolocation) {
 
+        var asking = false;
+
         this.options = {
             timeout: 2 * 1000,
             maximumAge: 0,
@@ -501,18 +503,21 @@ angular.module("templates", []).run(["$templateCache", function ($templateCache)
         return this;
 
         function gpsAlert() {
+            asking = true;
             var confirmPopup = $ionicPopup.confirm({
                 title: $filter("translate")("ar.popup.title"),
                 template: $filter("translate")("ar.popup.text"),
                 okText: $filter("translate")("ar.popup.button")
             });
-            confirmPopup.then(function (res) {
-                if (res) {
-                    cordova.plugins.diagnostic.switchToLocationSettings();
-                }
-            });
+            if(!asking) {
+                confirmPopup.then(function (res) {
+                    if (res) {
+                        cordova.plugins.diagnostic.switchToLocationSettings();
+                    }
+                    asking = false;
+                });
+            }
         }
-
     }
 
 })();
