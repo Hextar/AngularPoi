@@ -17,7 +17,7 @@
             <div class="navtitle">Nearby</div>
         </div>
         <ul class="list">
-            <li class="item" ng-repeat="poi in poiList track by $index | limitTo POI_LIMIT">
+            <li class="item" ng-repeat="poi in poiList track by $index">
                 {{poi.name}}
             </li>
         </ul>

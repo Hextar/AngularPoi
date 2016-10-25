@@ -8,10 +8,10 @@
         .module('angular-poi', ['templates'])
         .controller("CameraController", cameraController);
 
-    cameraController.$inject = ['$scope', '$sce', '$rootScope', '$ionicPlatform',
+    cameraController.$inject = ['$scope', '$filter', '$sce', '$rootScope', '$ionicPlatform',
         'Compass', 'Accellerometer', 'Geolocation', 'Camera'];
 
-    function cameraController($scope, $sce, $rootScope, $ionicPlatform, Compass, Accellerometer,
+    function cameraController($scope, $filter, $sce, $rootScope, $ionicPlatform, Compass, Accellerometer,
                               Geolocation, Camera) {
 
         var pois = $scope.pois;
@@ -19,7 +19,6 @@
         var DISTANCE_THRESHOLD_1 = 5;
         var DISTANCE_THRESHOLD_2 = 10;
         var DISTANCE_THRESHOLD_3 = 20;
-        $scope.POI_LIMIT = 3;
 
         var markersArray = [], bounds;
         var bearing, distance;
@@ -27,7 +26,6 @@
         $scope.arViewVisible = false;
         $scope.viewViewVisible = false;
         $scope.poiList = [];
-
 
         function drawAR() {
             $ionicPlatform.ready(function () {
@@ -157,7 +155,6 @@
                     }
                     poiList.push('<div class="name" data-id="' + i + '" style="margin-left:' + (((pois[i].bearing - degree) * 5) + 50) + 'px;width:' + ($(window).width() - 100) + 'px;font-size:' + fontSize + 'px;color:' + fontColor + '">' + pois[i].name + '<div class="distance">' + away + ' kilometers away</div></div>');
                     //console.debug(poiList);
-                    $scope.computedPois = $sce.trustAsHtml(poiList.toString());
                     detected = 1;
                 } else {
                     if (!detected) {
@@ -165,7 +162,12 @@
                         $scope.computedPois = $sce.trustAsHtml();
                     }
                 }
+
+                poiList = $filter('orderBy')(poiList, 'distance');
+                poiList = $filter('limitTo')(poiList, $scope.limit);
+                $scope.computedPois = $sce.trustAsHtml(poiList.toString());
             }
+
         }
 
         $rootScope.showTop = function () {
@@ -182,6 +184,7 @@
 
 })();
 
+
 /*** ********* ***/
 /*** Directive.js ***/
 /*** ********* ***/
@@ -195,13 +198,17 @@
     function directive() {
         return {
             restrict: 'AE',
-            scope: {pois: '=pois'},
+            scope: {
+                pois: '=pois',
+                limit: '=limit'
+            },
             templateUrl: "templates/cameraAR.html",
             controller: 'CameraController'
         };
     }
 
 })();
+
 
 
 /*** ********* ***/
