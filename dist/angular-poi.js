@@ -461,9 +461,11 @@ angular.module("templates", []).run(["$templateCache", function ($templateCache)
                         if (!$rootScope.dataLoading) $rootScope.loadData();
                     }, function (err) {
                         $rootScope.errorList += err + " - ";
-                        if(!asking) {
-                            asking = true;
-                            gpsAlert();
+                        if(err.code != 3) {
+                            if(!asking) {
+                                asking = true;
+                                gpsAlert();
+                            }
                         }
                     });
             });
