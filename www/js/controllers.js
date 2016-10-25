@@ -16,6 +16,7 @@
         var DISTANCE_THRESHOLD_1 = 5;
         var DISTANCE_THRESHOLD_2 = 10;
         var DISTANCE_THRESHOLD_3 = 20;
+        $scope.POI_LIMIT = 3;
 
         var markersArray = [], bounds;
         var bearing, distance;
