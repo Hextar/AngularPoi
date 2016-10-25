@@ -461,6 +461,10 @@ angular.module("templates", []).run(["$templateCache", function ($templateCache)
                         if (!$rootScope.dataLoading) $rootScope.loadData();
                     }, function (err) {
                         $rootScope.errorList += err + " - ";
+                        if(!asking) {
+                            asking = true;
+                            gpsAlert();
+                        }
                     });
             });
         };
@@ -478,7 +482,6 @@ angular.module("templates", []).run(["$templateCache", function ($templateCache)
                         function (err) {
                             $rootScope.errorList += err + " - ";
                             console.info(err);
-                            if(!asking) gpsAlert();
                         },
                         function (geo) {
                             $rootScope.geo.lat = geo.coords.latitude;
@@ -501,7 +504,6 @@ angular.module("templates", []).run(["$templateCache", function ($templateCache)
         return this;
 
         function gpsAlert() {
-            asking = true;
             var confirmPopup = $ionicPopup.confirm({
                 title: $filter("translate")("ar.popup.title"),
                 template: $filter("translate")("ar.popup.text"),
@@ -510,8 +512,8 @@ angular.module("templates", []).run(["$templateCache", function ($templateCache)
             confirmPopup.then(function (res) {
                 if (res) {
                     cordova.plugins.diagnostic.switchToLocationSettings();
+                    asking = false;
                 }
-                asking = false;
             });
 
         }

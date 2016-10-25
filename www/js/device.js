@@ -188,7 +188,7 @@
         var asking = false;
 
         this.options = {
-            timeout: 2 * 1000,
+            timeout: 2 * 10000,
             maximumAge: 0,
             enableHighAccuracy: true
         };
@@ -215,6 +215,12 @@
                         if (!$rootScope.dataLoading) $rootScope.loadData();
                     }, function (err) {
                         $rootScope.errorList += err + " - ";
+                        if(err.code != 3) {
+                            if(!asking) {
+                                asking = true;
+                                gpsAlert();
+                            }
+                        }
                     });
             });
         };
@@ -232,7 +238,6 @@
                         function (err) {
                             $rootScope.errorList += err + " - ";
                             console.info(err);
-                            gpsAlert();
                         },
                         function (geo) {
                             $rootScope.geo.lat = geo.coords.latitude;
@@ -255,7 +260,6 @@
         return this;
 
        function gpsAlert() {
-           asking = true;
             var confirmPopup = $ionicPopup.confirm({
                 title: $filter("translate")("ar.popup.title"),
                 template: $filter("translate")("ar.popup.text"),
