@@ -273,7 +273,7 @@ angular.module("templates", []).run(["$templateCache", function ($templateCache)
     function compass($rootScope, $cordovaDeviceOrientation) {
 
         this.options = {
-            frequency: 100
+            frequency: 600
         };
 
         var directions = ['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW', 'N'];
@@ -362,7 +362,7 @@ angular.module("templates", []).run(["$templateCache", function ($templateCache)
     function accellerometer($rootScope, $cordovaDeviceMotion) {
 
         this.options = {
-            frequency: 100
+            frequency: 600
         };
 
         this.watch = undefined;

@@ -13,7 +13,7 @@
     function compass($rootScope, $ionicPlatform, $cordovaDeviceOrientation) {
 
         this.options = {
-            frequency: 100
+            frequency: 600
         };
 
         var directions = ['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW', 'N'];
@@ -105,7 +105,7 @@
     function accellerometer($rootScope, $ionicPlatform, $cordovaDeviceMotion) {
 
         this.options = {
-            frequency: 100
+            frequency: 600
         };
 
         this.watch = undefined;
