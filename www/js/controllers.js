@@ -12,6 +12,7 @@
                               Geolocation, Camera) {
 
         var pois = $scope.pois;
+        var callbackList = $scope.callback;
 
         var DISTANCE_THRESHOLD_1 = 5;
         var DISTANCE_THRESHOLD_2 = 10;

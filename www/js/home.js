@@ -1,6 +1,6 @@
 angular.module('angular-poi')
 
-    .controller('Home', function ($scope, $ionicPlatform) {
+    .controller('Home', function ($scope, $rootScope, $ionicPlatform) {
 
         $ionicPlatform.ready(function () {
             cordova.plugins.diagnostic.requestRuntimePermissions(function (statuses) {
@@ -30,11 +30,15 @@ angular.module('angular-poi')
         });
 
         $scope.items = [
-            {"name": "Coccodì", "lat": "39.218365", "lng": "9.113795"},
-            {"name": "Bombas", "lat": "39.217118", "lng": "9.115308"},
-            {"name": "La Balena", "lat": "39.231314", "lng": "9.094558"},
-            {"name": "Pizzeria Levante", "lat": "39.228395", "lng": "9.120056"},
-            {"name": "Pizzeria Nicolino", "lat": "39.234539", "lng": "9.100404"}
+            {id: "111", "name": "Coccodì", "lat": "39.218365", "lng": "9.113795"},
+            {id: "222", "name": "Bombas", "lat": "39.217118", "lng": "9.115308"},
+            {id: "333", "name": "La Balena", "lat": "39.231314", "lng": "9.094558"},
+            {id: "444", "name": "Pizzeria  Levante", "lat": "39.228395", "lng": "9.120056"},
+            {id: "555", "name": "Pizzeria Nicolino", "lat": "39.234539", "lng": "9.100404"}
         ];
+
+        $scope.listCallback = function (index) {
+            console.debug("Cliccato object con id "+index);
+        }
 
     });

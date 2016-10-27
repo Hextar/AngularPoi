@@ -17,7 +17,7 @@
             <div class="navtitle">Nearby</div>
         </div>
         <ul class="list">
-            <li class="item" ng-repeat="poi in poiList track by $index">
+            <li class="item" ng-repeat="poi in poiList track by $index" ng-click='poiListCallback({index : poi.id})'>
                 {{poi.name}}
             </li>
         </ul>

@@ -10,10 +10,13 @@
             restrict: 'AE',
             scope: {
                 pois: '=pois',
-                limit: '=limit'
+                limit: '=limit',
+                poiListCallback: '&'
             },
             templateUrl: "templates/cameraAR.html",
-            controller: 'CameraController'
+            controller: 'CameraController',
+            link: function(scope, elm, attrs) {
+            }
         };
     }
 
