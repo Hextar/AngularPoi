@@ -90,6 +90,7 @@
                 $scope.poiList.push(pois[i]);
                 relativePosition(i);
             }
+            $scope.poiList = $filter('orderBy')($scope.poiList, 'distance');
 
             /*
              map.fitBounds(bounds);
@@ -151,7 +152,7 @@
                         fontSize = "30";
                         fontColor = "#eee";
                     }
-                    poiList.push('<div class="name" data-id="' + i + '" style="margin-left:' + (((pois[i].bearing - degree) * 5) + 50) + 'px;width:' + ($(window).width() - 100) + 'px;font-size:' + fontSize + 'px;color:' + fontColor + '">' + pois[i].name + '<div class="distance">' + away + ' kilometers away</div></div>');
+                    poiList.push('<div class="name" data-id="' + i + '" style="margin-left:' + (((pois[i].bearing - degree) * 5) + 50) + 'px;width:' + ($(window).width() - 100) + 'px;font-size:' + fontSize + 'px;color:' + fontColor + '">' + pois[i].name + '<div class="distance">' + away + ' ' + $filter('translate')('ar.away') + '</div></div>');
                     //console.debug(poiList);
                     detected = 1;
                 } else {
@@ -176,6 +177,10 @@
         $rootScope.hideTop = function () {
             $scope.topViewVisible = true;
             $scope.arViewVisible = false;
+        }
+
+        $rootScope.listClicked = function (index) {
+            //$rootScope.listCallback(index);
         }
 
     }

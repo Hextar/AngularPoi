@@ -156,6 +156,13 @@ body {
   font-weight: normal;
 }
 
+#camera-view .listDistance {
+  float: right;
+  font-size: .75em;
+  font-weight: normal;
+  color: #666;
+}
+
 #camera-view #debug {
   border: 1px solid #999;
   display: none;
