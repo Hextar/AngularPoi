@@ -92,7 +92,8 @@
                 $scope.poiList.push(pois[i]);
                 relativePosition(i);
             }
-
+            $scope.poiList = $filter('orderBy')($scope.poiList, 'distance');
+            
             /*
              map.fitBounds(bounds);
              google.maps.event.trigger(map, "resize");
@@ -153,7 +154,7 @@
                         fontSize = "30";
                         fontColor = "#eee";
                     }
-                    poiList.push('<div class="name" data-id="' + i + '" style="margin-left:' + (((pois[i].bearing - degree) * 5) + 50) + 'px;width:' + ($(window).width() - 100) + 'px;font-size:' + fontSize + 'px;color:' + fontColor + '">' + pois[i].name + '<div class="distance">' + away + ' kilometers away</div></div>');
+                    poiList.push('<div class="name" data-id="' + i + '" style="margin-left:' + (((pois[i].bearing - degree) * 5) + 50) + 'px;width:' + ($(window).width() - 100) + 'px;font-size:' + fontSize + 'px;color:' + fontColor + '">' + pois[i].name + '<div class="distance">' + away + ' ' + $filter('translate')('ar.away') + '</div></div>');
                     //console.debug(poiList);
                     detected = 1;
                 } else {
@@ -218,7 +219,7 @@
 /*** Template.js ***/
 /*** ********* ***/
 angular.module("templates", []).run(["$templateCache", function ($templateCache) {
-    $templateCache.put("templates/cameraAR.html", "<ion-pane id='camera-view' class='no-background'> <div id='arView' class='no-background' ng-if='arViewVisible'> <div class='arMessage'>&uarr;<br>Tilt down to see all places</div><br><div class='arMessage'>&larr; Move the device around to find spots &rarr;</div><br><div id='direction'>{{$root.compass.direction}}</div><br><div id='spot'> <div ng-bind-html='computedPois'></div></div></div><div id='topView' ng-if='topViewVisible'> <div class='navbar'> <div class='navtitle'>Nearby</div></div><ul class='list'> <li class='item' ng-repeat='poi in poiList track by $index' ng-click='poiListCallback({index : poi.id})'>{{poi.name}}</li></ul> <div class='mapView'> <div id='map'></div></div></div><div id='debug'> <div class='heading'>Geolocation</div><div id='geolocation'></div>LAT:{{$root.geo.lat}}LON:{{$root.geo.lon}}<div class='heading'>Compass</div><div id='compass'></div>DIRECTION:{{$root.compass.direction}}<div class='heading'>Accelerometer</div><div id='accelerometer'> X:{{$root.motion.x}}Y:{{$root.motion.y}}Z:{{$root.motion.z}}</div><div class='heading'>Log</div><div id='log'></div>ERRORI:{{$root.errorList}}</div></ion-pane>");
+    $templateCache.put("templates/cameraAR.html", "<ion-pane id='camera-view' class='no-background'> <div id='arView' class='no-background' ng-if='arViewVisible'> <div class='arMessage'>&uarr;<br>Tilt down to see all places</div><br><div class='arMessage'>&larr; Move the device around to find spots &rarr;</div><br><div id='direction'>{{$root.compass.direction}}</div><br><div id='spot'> <div ng-bind-html='computedPois'></div></div></div><div id='topView' ng-if='topViewVisible'> <div class='navbar'> <div class='navtitle'>Nearby</div></div><ul class='list'> <li class='item' ng-repeat='poi in poiList track by $index' ng-click='poiListCallback({index : poi.id})'>{{poi.name}}<span class='listDistance'>{{poi.distance | currency:''}}Km</span> </li></ul> <div class='mapView'> <div id='map'></div></div></div><div id='debug'> <div class='heading'>Geolocation</div><div id='geolocation'></div>LAT:{{$root.geo.lat}}LON:{{$root.geo.lon}}<div class='heading'>Compass</div><div id='compass'></div>DIRECTION:{{$root.compass.direction}}<div class='heading'>Accelerometer</div><div id='accelerometer'> X:{{$root.motion.x}}Y:{{$root.motion.y}}Z:{{$root.motion.z}}</div><div class='heading'>Log</div><div id='log'></div>ERRORI:{{$root.errorList}}</div></ion-pane>");
 }]);
 
 
