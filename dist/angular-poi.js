@@ -93,7 +93,7 @@
                 relativePosition(i);
             }
             $scope.poiList = $filter('orderBy')($scope.poiList, 'distance');
-            
+
             /*
              map.fitBounds(bounds);
              google.maps.event.trigger(map, "resize");
